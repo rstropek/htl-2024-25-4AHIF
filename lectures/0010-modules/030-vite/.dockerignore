@@ -1,0 +1,7 @@
+dist
+node_modules
+.dockerignore
+.editorconfig
+.gitignore
+.prettierrc
+Dockerfile

@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "esbenp.prettier-vscode",
+        "editorconfig.editorconfig",
+        "wayou.vscode-todo-highlight",
+        "ritwickdey.liveserver"
+    ]
+}
