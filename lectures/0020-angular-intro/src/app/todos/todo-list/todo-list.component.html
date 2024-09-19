@@ -1,0 +1,44 @@
+<div class="div container">
+  <h2>Todo List</h2>
+
+  <form class="filter-section row">
+    <div class="mb-3">
+      <label for="onlyDone" class="form-label">Done:</label>
+      <select class="form-select" (change)="refresh()" name="onlyDone" #doneFilter>
+        <option value="all">All</option>
+        <option value="onlyUnfinished">Only unfinished</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="assignedTo" class="form-label">Assigned To:</label>
+      <select class="form-select" (change)="refresh()" name="assignedTo" #assignedToFilter>
+        <option value="">All</option>
+        @for (assignee of todoStore.assignees(); track $index) {
+        <option [value]="assignee">{{ assignee }}</option>
+        }
+      </select>
+    </div>
+  </form>
+
+  <div class="todo-list">
+    @if (todoStore.isLoading()) {
+    <div>Loading...</div>
+    } @else if(todoStore.error()) {
+    <div>
+      <div>
+        {{ todoStore.error() }}
+      </div>
+      <button class="btn btn-primary" (click)="refresh()">Retry</button>
+    </div>
+    } @else if (todoStore.todos().length > 0) {
+    <ul>
+      @for (todo of todoStore.todos(); track $index) {
+      <li>
+        <input type="checkbox" [checked]="todo.done" class="mr-3" />
+        <span>{{ todo.title }} ({{ todo.assignedTo }})</span>
+      </li>
+      }
+    </ul>
+    }
+  </div>
+</div>
