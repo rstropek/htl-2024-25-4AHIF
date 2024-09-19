@@ -1,0 +1,19 @@
+<div class="container">
+  <h2>Tic Tac Toe</h2>
+
+  <div class="board">
+    <!-- Note the new control flow blocks, learn more at https://angular.dev/guide/templates/control-flow -->
+    @for (square of board(); track $index) {
+    <div class="square" [ngClass]="{winner: (winningLine()?.indexOf($index) ?? -1) !== -1}" (click)="makeMove($index)">
+      {{ square }}
+    </div>
+    }
+  </div>
+
+  @if (winner()) {
+  <div>
+    <p>Winner: {{ winner() }}</p>
+    <button (click)="resetGame()">Reset Game</button>
+  </div>
+  }
+</div>
