@@ -1,0 +1,21 @@
+.container {
+  text-align: center;
+  margin-top: 50px;
+}
+
+input {
+  margin: 10px;
+  padding: 5px;
+  font-size: 16px;
+}
+
+button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+p {
+  font-size: 18px;
+  font-weight: bold;
+}
