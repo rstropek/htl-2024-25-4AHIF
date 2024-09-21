@@ -1,3 +1,5 @@
+<!-- Learn more about signals at https://angular.dev/guide/signals -->
+
 <form (submit)="makeGuess()">
   <input name="userGuess" type="number" [(ngModel)]="userGuess" placeholder="Enter your guess" [disabled]="found()" #userGuessInput />
   <button type="submit" [disabled]="!userGuess() || found()">Guess</button>

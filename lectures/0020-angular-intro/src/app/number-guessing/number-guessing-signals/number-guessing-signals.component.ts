@@ -1,6 +1,8 @@
 import { Component, computed, ElementRef, model, signal, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+// Learn more about signals at https://angular.dev/guide/signals
+
 @Component({
   selector: 'app-number-guessing-signals',
   standalone: true,

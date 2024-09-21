@@ -1,4 +1,4 @@
-import { Component, computed, ElementRef, model, signal, ViewChild, viewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -13,6 +13,8 @@ export class NumberGuessingTraditionalComponent {
   userGuess: number | undefined = undefined;
   feedback = '';
   numberOfGuesses = 0;
+
+  // Learn more about union types at https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#union-types
   guesses: { guess: number; result: '⬆️' | '⬇️' | '👍' }[] = [];
 
   get found() {
@@ -20,6 +22,7 @@ export class NumberGuessingTraditionalComponent {
     return guesses.length > 0 && guesses[guesses.length - 1].result === '👍';
   }
   
+  // Learn more about child queries https://angular.dev/guide/components/queries#static-queries
   @ViewChild('userGuessInput') userGuessInput: ElementRef | undefined;
 
   private static generateRandomNumber() {
