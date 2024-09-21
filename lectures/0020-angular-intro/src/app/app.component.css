@@ -1,0 +1,65 @@
+/* Entire content should be centered and max. 1200px wide */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100vh;
+}
+
+header {
+    margin: 5px;
+    height: 50px;
+    display: flex;
+    justify-content: space-between; /* Brand text left and menu items right */
+    align-items: center; /* Align content vertically */
+    padding: 20px;
+    background-color: lightgray;
+}
+
+.brand {
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.links {
+    display: flex; /* Links side-by-side */
+    justify-content: space-between;
+    align-items: center;
+    height: 100%; /* Vertical alignment */
+}
+
+.links a {
+    background-color: gray;
+    height: 100%;
+    display: flex;
+    align-items: center; /* Vertical center */
+    padding: 5px 15px;
+    border-radius: 5%;
+    color: white;
+}
+
+/* Left margin for all links except first */
+a:not(:first-child) {
+    margin-left: 20px;
+    text-align: center;
+}
+
+main {
+    padding: 5px 25px;
+    overflow-y: auto;
+}
+
+footer {
+    margin: 5px;
+    padding: 0 20px;
+    border-top: 1px solid black;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:visited {
+    color: black;
+}

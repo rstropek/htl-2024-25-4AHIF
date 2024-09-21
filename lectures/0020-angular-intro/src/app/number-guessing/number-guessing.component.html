@@ -1,8 +1,20 @@
-<div class="container">
-  <h2>Number Guessing Game</h2>
-  
-  <input type="number" [(ngModel)]="userGuess" placeholder="Enter your guess" />
-  <button (click)="makeGuess()">Guess</button>
-  <p>{{ feedback() }}</p>
-  <button (click)="resetGame()">Reset Game</button>
-</div>
+<main>
+  <section>
+    <h2>Traditional</h2>
+
+    <p>The following version of the number guessing game is implemented with traditional mechanisms of Angular forms.</p>
+
+    <app-number-guessing-traditional></app-number-guessing-traditional>
+  </section>
+
+  <section>
+    <h2>With Signals</h2>
+
+    <p>
+      In contrast to the traditional implementation, this version uses the new
+      <a target="_blank" href="https://angular.dev/guide/signals">signals in Angular</a>.
+    </p>
+
+    <app-number-guessing-signals></app-number-guessing-signals>
+  </section>
+</main>

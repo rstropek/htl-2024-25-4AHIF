@@ -1,21 +1,10 @@
-.container {
-  text-align: center;
-  margin-top: 50px;
+main {
+    display: grid;
+    grid-template-columns: 1fr;
 }
 
-input {
-  margin: 10px;
-  padding: 5px;
-  font-size: 16px;
-}
-
-button {
-  margin: 10px;
-  padding: 10px 20px;
-  font-size: 16px;
-}
-
-p {
-  font-size: 18px;
-  font-weight: bold;
+@media (min-width: 1000px) {
+    main {
+        grid-template-columns: 1fr 1fr;
+    }
 }

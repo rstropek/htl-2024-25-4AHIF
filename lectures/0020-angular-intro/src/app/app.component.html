@@ -1,23 +1,18 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary mb-3">
-	<div class="container-fluid">
-		<a class="navbar-brand" routerLink="/">Responsive navbar</a>
+<div class="container">
+  <header>
+    <a class="brand" routerLink="/">Angular Demo</a>
+    <div class="links">
+      <a class="nav-link" routerLink="/number-guessing">Guessing</a>
+      <a class="nav-link" routerLink="/tic-tac-toe">TicTacToe</a>
+      <a class="nav-link" routerLink="/todo-list">Todos</a>
+    </div>
+  </header>
 
-		<button class="navbar-toggler" type="button" (click)="isMenuCollapsed.set(!isMenuCollapsed())">&#9776;</button>
+  <main>
+    <router-outlet />
+  </main>
 
-		<div [ngbCollapse]="isMenuCollapsed()" class="collapse navbar-collapse">
-			<ul class="navbar-nav">
-				<li class="nav-item active">
-					<a class="nav-link" routerLink="/tic-tac-toe" (click)="isMenuCollapsed.set(true)">TicTacToe</a>
-				</li>
-				<li class="nav-item active">
-					<a class="nav-link" routerLink="/number-guessing" (click)="isMenuCollapsed.set(true)">Number&nbsp;Guessing</a>
-				</li>
-				<li class="nav-item active">
-					<a class="nav-link" routerLink="/todo-list" (click)="isMenuCollapsed.set(true)">Todo&nbsp;List</a>
-				</li>
-			</ul>
-		</div>
-	</div>
-</nav>
-
-<router-outlet />
+  <footer>
+	<p>Angular sample</p>
+  </footer>
+</div>
