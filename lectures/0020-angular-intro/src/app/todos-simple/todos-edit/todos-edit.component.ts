@@ -60,10 +60,10 @@ export class TodosEditComponent {
 
     await op;
 
-    this.router.navigateByUrl('/todo-list2');
+    this.router.navigateByUrl('/todo-list-simple');
   }
   
   cancel() {
-    this.router.navigateByUrl('/todo-list2');
+    this.router.navigateByUrl('/todo-list-simple');
   }
 }
