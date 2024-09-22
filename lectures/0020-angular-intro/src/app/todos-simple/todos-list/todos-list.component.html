@@ -1,0 +1,18 @@
+<div class="container">
+  <main>
+    <h2>Todo List</h2>
+
+    <div class="list">
+      <div class="header">Done</div>
+      <div class="header">Title</div>
+      <div class="header">Assigned to</div>
+      <div class="header"></div>
+      @for(todo of client.todos(); track todo.id) {
+      <div>{{ todo.done ? '✅' : '⏹️' }}</div>
+      <div>{{todo.id }}: {{ todo.title }}</div>
+      <div>{{ todo.assignedTo }}</div>
+      <div><a [routerLink]="'edit/' + todo.id">✏️</a></div>
+      }
+    </div>
+  </main>
+</div>
