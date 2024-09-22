@@ -13,7 +13,7 @@
 
   @if (winner()) {
   <div>
-    <p>Winner: {{ winner() }}</p>
+    <p class="message">Winner: {{ winner() }}</p>
     <button (click)="resetGame()">Reset Game</button>
   </div>
   }

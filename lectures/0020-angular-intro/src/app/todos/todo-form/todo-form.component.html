@@ -1,1 +1,17 @@
-<p>todo-form works!</p>
+<form (ngSubmit)="save()" #todoForm="ngForm">
+  <label>Title:</label>
+  <input type="text" name="title" [(ngModel)]="title" #titleInput="ngModel" required />
+
+  <label>Assigned to:</label>
+  <select name="assignedTo" [(ngModel)]="assignedTo" #assignedToInput="ngModel" required>
+    @for(a of assignees(); track a) {
+    <option [value]="a">{{ a }}</option>
+    }
+  </select>
+
+  <div></div>
+  <div class="buttons">
+    <button type="submit" [disabled]="todoForm.invalid">Save</button>
+    <button type="button" (click)="cancel()">Cancel</button>
+  </div>
+</form>

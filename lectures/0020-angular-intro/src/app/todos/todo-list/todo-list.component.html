@@ -1,44 +1,48 @@
-<div class="div container">
+<div class="container">
   <h2>Todo List</h2>
 
-  <form class="filter-section row">
-    <div class="mb-3">
-      <label for="onlyDone" class="form-label">Done:</label>
-      <select class="form-select" (change)="refresh()" name="onlyDone" #doneFilter>
+  <form>
+    <div>
+      <label for="onlyDone">Done:</label>
+      <select (change)="changeDoneFilter()" name="onlyDone" #doneFilter>
         <option value="all">All</option>
-        <option value="onlyUnfinished">Only unfinished</option>
+        <option [value]="onlyUnfinishedOptionValue">Only unfinished</option>
       </select>
     </div>
-    <div class="mb-3">
-      <label for="assignedTo" class="form-label">Assigned To:</label>
-      <select class="form-select" (change)="refresh()" name="assignedTo" #assignedToFilter>
+    <div>
+      <label for="assignedTo">Assigned To:</label>
+      <select (change)="changeAssignedToFilter()" name="assignedTo" #assignedToFilter>
         <option value="">All</option>
         @for (assignee of todoStore.assignees(); track $index) {
         <option [value]="assignee">{{ assignee }}</option>
         }
       </select>
     </div>
+    <button (click)="add()">Add</button>
   </form>
 
-  <div class="todo-list">
+  <main>
     @if (todoStore.isLoading()) {
-    <div>Loading...</div>
+    <div class="loading">Loading...</div>
     } @else if(todoStore.error()) {
-    <div>
-      <div>
-        {{ todoStore.error() }}
-      </div>
-      <button class="btn btn-primary" (click)="refresh()">Retry</button>
+    <div class="error">
+      <div>{{ todoStore.error() }}</div>
+      <button (click)="refresh()">Retry</button>
     </div>
     } @else if (todoStore.todos().length > 0) {
     <ul>
-      @for (todo of todoStore.todos(); track $index) {
+      @for (todo of todoStore.todos(); track todo.id) {
       <li>
-        <input type="checkbox" [checked]="todo.done" class="mr-3" />
+        <input type="checkbox" [checked]="todo.done" (change)="toggleTodo(todo)" />
         <span>{{ todo.title }} ({{ todo.assignedTo }})</span>
+        <span (click)="edit(todo)">✏️</span>
       </li>
       }
     </ul>
     }
-  </div>
+  </main>
+
+  <dialog #addDialog>
+    <app-todo-form [todo]="todoFormInput()" (saved)="formSaved($event)" (canceled)="formCancled()"></app-todo-form>
+  </dialog>
 </div>

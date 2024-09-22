@@ -1,13 +1,20 @@
-import { computed, Injectable, input, model, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 
-export type Todo = {
+/** Master data of new todo item (not done by default) */
+export type NewTodo = {
   title: string;
   assignedTo: string;
+};
+
+/** Master data of existing todo item */
+export type Todo = NewTodo & {
+  id: number;
   done: boolean;
 };
 
+/** Filter fields */
 export type GetTodosFilter = {
-  done?: boolean;
+  onlyUnfinished?: boolean;
   assignedTo?: string;
 };
 
@@ -23,19 +30,30 @@ export type TodoState = {
   providedIn: 'root',
 })
 export class TodoStoreService {
+  private nextId = 1;
+
+  private todoStore: Todo[] = [
+    { id: this.nextId++, title: 'Buy milk', assignedTo: 'John', done: false },
+    { id: this.nextId++, title: 'Clean the room', assignedTo: 'John', done: false },
+    { id: this.nextId++, title: 'Call mom', assignedTo: 'Jane', done: false },
+    { id: this.nextId++, title: 'Buy a present', assignedTo: 'Jane', done: true },
+  ];
+
   private todoState = signal<TodoState>({
     isLoading: false,
     todos: [],
-    assignees: [],
+    assignees: ['John', 'Jane'],
     filter: {},
   });
 
-  // Selectors
+  // #region Selectors
   isLoading = computed(() => this.todoState().isLoading);
   todos = computed(() => this.todoState().todos);
   assignees = computed(() => this.todoState().assignees);
   error = computed(() => this.todoState().error);
+  // #endregion
 
+  // #region Actions
   private setLoading(isLoading: boolean) {
     this.todoState.update((state) => ({ ...state, isLoading }));
   }
@@ -44,83 +62,65 @@ export class TodoStoreService {
     this.todoState.update((state) => ({ ...state, todos }));
   }
 
-  private clearTodos() {
-    this.setTodos([]);
-  }
-
-  private setAssignees(assignees: string[]) {
-    this.todoState.update((state) => ({ ...state, assignees }));
-  }
-
   private setError(error: string) {
     this.todoState.update((state) => ({ ...state, error }));
   }
 
-  private clearError() {  
+  private clearError() {
     this.todoState.update((state) => ({ ...state, error: undefined }));
   }
 
-  async getTodos() {
+  async reload() {
     this.setLoading(true);
-    this.clearTodos();
     this.clearError();
 
     // Simulate loading
     await this.delay(1000);
 
-    if (Math.random() < 0.1) {
-      // Simulate error
-      this.setError('Failed to fetch todos');
+    try {
+      if (Math.random() < 0.1) {
+        // Simulate error
+        this.setError('Failed to fetch todos');
+        return;
+      }
+
+      const filter = this.todoState().filter;
+      let todos = this.todoStore;
+      if (filter) {
+        todos = todos.filter((todo) => (!filter.onlyUnfinished || !todo.done) && (!filter.assignedTo || todo.assignedTo === filter.assignedTo));
+      }
+
+      this.setTodos(todos);
+    } finally {
       this.setLoading(false);
-      return;
     }
-
-    let todos: Todo[] = [
-      { title: 'Buy milk', assignedTo: 'John', done: false },
-      { title: 'Clean the room', assignedTo: 'John', done: false },
-      { title: 'Call mom', assignedTo: 'Jane', done: false },
-      { title: 'Buy a present', assignedTo: 'Jane', done: true },
-    ];
-
-    this.setAssignees([...new Set(todos.map((todo) => todo.assignedTo))]);
-
-    const filter = this.todoState().filter;
-    if (filter) {
-      todos = todos.filter((todo) => (!filter.done || !todo.done) && (!filter.assignedTo || todo.assignedTo === filter.assignedTo));
-    }
-
-    this.setTodos(todos);
-
-    this.setLoading(false);
   }
 
-  async addTodo(todo: Todo) {
+  async addTodo(todo: NewTodo) {
     this.setLoading(true);
 
     // Simulate adding
-    await this.delay(2000);
+    await this.delay(1000);
 
-    if (Math.random() < 0.1) {
-      // Simulate error
-      this.setError('Failed to add todo');
-      this.setLoading(false);
-      return;
-    }
-
-    this.setTodos([...this.todos(), todo]);
+    this.todoStore = [...this.todoStore, { ...todo, id: this.nextId++, done: false }];
 
     this.setLoading(false);
   }
 
   setDoneFilter(onlyDone: boolean) {
-    this.todoState.update((state) => ({ ...state, filter: { ...state.filter, done: onlyDone } }));
-    this.getTodos();
+    this.todoState.update((state) => ({ ...state, filter: { ...state.filter, onlyUnfinished: onlyDone } }));
+    this.reload();
   }
 
   setAssignedToFilter(assignedTo: string) {
     this.todoState.update((state) => ({ ...state, filter: { ...state.filter, assignedTo } }));
-    this.getTodos();
+    this.reload();
   }
+
+  updateTodo(todo: Todo) {
+    this.todoStore = this.todoStore.map((t) => (t.id === todo.id ? todo : t));
+  }
+  // #endregion
 
   private delay(ms: number): Promise<void> {
     return new Promise((resolve) => setTimeout(resolve, ms));

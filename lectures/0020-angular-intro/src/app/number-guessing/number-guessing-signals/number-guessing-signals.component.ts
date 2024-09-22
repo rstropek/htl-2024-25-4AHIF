@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class NumberGuessingSignalsComponent {
   randomNumber = signal<number>(0);
-  userGuess = model<number | undefined>();
+  userGuess = model<number>();
   feedback = signal<string>('');
   numberOfGuesses = signal<number>(0);
   guesses = signal<{ guess: number; result: '⬆️' | '⬇️' | '👍' }[]>([]);
