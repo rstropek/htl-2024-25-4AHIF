@@ -4,8 +4,10 @@ import { Component } from '@angular/core';
   selector: 'app-greeting',
   standalone: true,
   imports: [],
-  templateUrl: './greeting.component.html',
-  styleUrl: './greeting.component.css'
+  template: `
+  <h1>Welcome to this Angular sample!</h1>
+  `,
+  styles: []
 })
 export class GreetingComponent {
 
