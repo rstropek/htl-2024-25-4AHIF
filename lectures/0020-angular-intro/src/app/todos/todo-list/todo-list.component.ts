@@ -61,11 +61,11 @@ export class TodoListComponent implements AfterViewInit {
     this.addDialog().nativeElement.close();
   }
 
-  formSaved(formTodo: FormTodo) {
+  async formSaved(formTodo: FormTodo) {
     this.addDialog().nativeElement.close();
 
     if (!formTodo.id) {
-      this.todoStore.addTodo(formTodo);
+      await this.todoStore.addTodo(formTodo);
     } else {
       const todo = this.todoStore.todos().find((t) => t.id === formTodo.id);
       if (!todo) {
@@ -73,15 +73,15 @@ export class TodoListComponent implements AfterViewInit {
       }
       todo.title = formTodo.title;
       todo.assignedTo = formTodo.assignedTo;
-      this.todoStore.updateTodo(todo);
+      await this.todoStore.updateTodo(todo);
     }
     
     this.todoStore.reload();
   }
 
-  toggleTodo(todo: Todo) {
+  async toggleTodo(todo: Todo) {
     todo.done = !todo.done;
-    this.todoStore.updateTodo(todo);
+    await this.todoStore.updateTodo(todo);
     this.todoStore.reload();
   }
 }
