@@ -1,4 +1,5 @@
 import { Component, effect, input, model, output, signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 
 export type FormTodo = {
@@ -29,17 +30,12 @@ export class TodoFormComponent {
   assignees = signal<string[]>([]);
 
   constructor() {
-    effect(
-      () => {
-        const input = this.todo();
-
-        this.id.set(input?.id);
-        this.title.set(input?.title ?? '');
-        this.assignedTo.set(input?.assignedTo ?? '');
-        this.assignees.set(input?.assignees ?? []);
-      },
-      { allowSignalWrites: true }
-    );
+    toObservable(this.todo).subscribe((input) => {
+      this.id.set(input?.id);
+      this.title.set(input?.title ?? '');
+      this.assignedTo.set(input?.assignedTo ?? '');
+      this.assignees.set(input?.assignees ?? []);
+    });
   }
 
   save() {

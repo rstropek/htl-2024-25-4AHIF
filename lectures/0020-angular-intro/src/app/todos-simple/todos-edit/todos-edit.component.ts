@@ -24,20 +24,19 @@ export class TodosEditComponent {
 
   constructor() {
     toObservable(this.id)
-      .pipe(filter(id => !!id), takeUntilDestroyed())
-      .subscribe(id => this.client.getTodo(id!));
+      .pipe(
+        filter((id) => !!id),
+        takeUntilDestroyed()
+      )
+      .subscribe((id) => this.client.getTodo(id!));
 
-    effect(
-      () => {
-        const todo = this.client.todo();
-        if (todo) {
-          this.title.set(todo.title);
-          this.assignedTo.set(todo.assignedTo);
-          this.done.set(todo.done);
-        }
-      },
-      { allowSignalWrites: true }
-    );
+    toObservable(this.client.todo)
+      .pipe(filter((todo) => !!todo))
+      .subscribe((todo) => {
+        this.title.set(todo.title);
+        this.assignedTo.set(todo.assignedTo);
+        this.done.set(todo.done);
+      });
   }
 
   async save() {
@@ -62,7 +61,7 @@ export class TodosEditComponent {
 
     this.router.navigateByUrl('/todo-list-simple');
   }
-  
+
   cancel() {
     this.router.navigateByUrl('/todo-list-simple');
   }
