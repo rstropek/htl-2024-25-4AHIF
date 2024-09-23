@@ -22,7 +22,7 @@ export class NumberGuessingSignalsComponent {
     return guesses.length > 0 && guesses[guesses.length - 1].result === '👍';
   });
   
-  userGuessInput = viewChild<ElementRef>('userGuessInput');
+  userGuessInput = viewChild.required<ElementRef<HTMLInputElement>>('userGuessInput');
 
   private static generateRandomNumber() {
     return Math.floor(Math.random() * 100) + 1;
@@ -47,7 +47,7 @@ export class NumberGuessingSignalsComponent {
         this.feedback.set('Lower');
       }
 
-      const element = this.userGuessInput()?.nativeElement as HTMLInputElement;
+      const element = this.userGuessInput().nativeElement;
       element.select();
       element.focus();
     }

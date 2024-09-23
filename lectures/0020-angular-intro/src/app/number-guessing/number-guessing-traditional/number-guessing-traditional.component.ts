@@ -23,7 +23,7 @@ export class NumberGuessingTraditionalComponent {
   }
   
   // Learn more about child queries https://angular.dev/guide/components/queries#static-queries
-  @ViewChild('userGuessInput') userGuessInput: ElementRef | undefined;
+  @ViewChild('userGuessInput') userGuessInput: ElementRef<HTMLInputElement> | undefined;
 
   private static generateRandomNumber() {
     return Math.floor(Math.random() * 100) + 1;
@@ -51,7 +51,7 @@ export class NumberGuessingTraditionalComponent {
         this.feedback = 'Lower';
       }
 
-      const element = this.userGuessInput?.nativeElement as HTMLInputElement;
+      const element = this.userGuessInput?.nativeElement!;
       element.select();
       element.focus();
     }
