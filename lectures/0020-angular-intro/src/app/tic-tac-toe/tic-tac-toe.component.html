@@ -4,7 +4,8 @@
   <div class="board">
     <!-- Note the new control flow blocks, learn more at https://angular.dev/guide/templates/control-flow -->
     @for (square of board(); track $index) {
-    <div class="square" [ngClass]="{winner: (winningLine()?.indexOf($index) ?? -1) !== -1}" (click)="makeMove($index)">
+    <!-- Read more about event arguments https://angular.dev/guide/templates/event-listeners -->
+    <div class="square" [ngClass]="{ winner: (winningLine()?.indexOf($index) ?? -1) !== -1 }" (click)="makeMove($index)">
       {{ square }}
     </div>
     }
@@ -12,7 +13,7 @@
 
   @if (winner()) {
   <div>
-    <p>Winner: {{ winner() }}</p>
+    <p class="message">Winner: {{ winner() }}</p>
     <button (click)="resetGame()">Reset Game</button>
   </div>
   }

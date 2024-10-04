@@ -1,0 +1,20 @@
+<div class="container">
+  <h2>{{ id() ? 'Edit Todo' : 'Add Todo' }}</h2>
+  @if (!client.isWriting()) {
+  <form (submit)="save()">
+    <label>Title:</label>
+    <input type="text" name="title" [(ngModel)]="title" />
+    <label>Assigned to:</label>
+    <input type="text" name="assignedTo" [(ngModel)]="assignedTo" />
+    <label>Done:</label>
+    <input type="checkbox" name="done" [(ngModel)]="done" />
+    <div></div>
+    <div class="buttons">
+      <button type="submit">Save</button>
+      <button type="button" (click)="cancel()">Cancel</button>
+    </div>
+  </form>
+  } @else {
+  <p>Saving...</p>
+  }
+</div>

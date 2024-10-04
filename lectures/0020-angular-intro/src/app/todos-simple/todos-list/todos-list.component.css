@@ -1,0 +1,23 @@
+.list {
+  display: inline-grid;
+  grid-template-columns: auto minmax(150px, auto) minmax(150px, auto) auto;
+  row-gap: 10px;
+}
+
+.header {
+  font-weight: bold;
+  padding-bottom: 5px;
+  border-bottom: 1px solid black;
+}
+
+.list div {
+  padding-left: 20px;
+}
+
+.list div a {
+    text-decoration: none;
+}
+
+.list div:nth-of-type(4n+1) {
+  padding-left: 0;
+}

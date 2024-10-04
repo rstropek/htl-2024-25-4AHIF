@@ -1,20 +1,89 @@
-.filter-section {
-  margin-bottom: 20px;
+:root {
+  --font-size: 20px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+}
+
+label {
+  font-size: var(--font-size);
+}
+
+form div:not(:first-child) {
+  margin-left: 20px;
+}
+
+form button {
+  margin-left: 15px;
+}
+
+select {
+  margin-left: 5px;
+  padding: 5px;
+}
+
+main {
   margin-top: 20px;
 }
 
-.todo-list ul {
+ul {
   list-style-type: none;
   padding: 0;
 }
 
-.todo-list li {
-  display: flex;
-  justify-content: start;
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
+.loading {
+  margin-top: 20px;
+  animation: pulse 1s reverse infinite;
 }
 
-.todo-list li .done {
-  color: green;
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+li {
+  display: flex;
+  justify-content: start;
+  padding: 5px;
+  font-size: var(--font-size);
+}
+
+input[type='checkbox'] {
+  margin-right: 10px;
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+  padding: 20px;
+  background-color: lightcoral;
+  border: 1px solid red;
+}
+
+.error div {
+  color: white;
+  font-size: var(--font-size);
+}
+
+.error button {
+  margin-left: 10px;
+  padding: 10px 20px;
+  font-size: var(--font-size);
 }

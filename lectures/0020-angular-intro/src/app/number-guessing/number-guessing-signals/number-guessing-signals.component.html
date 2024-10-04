@@ -1,0 +1,17 @@
+<!-- Learn more about signals at https://angular.dev/guide/signals -->
+
+<form (submit)="makeGuess()">
+  <input name="userGuess" type="number" [(ngModel)]="userGuess" placeholder="Enter your guess" [disabled]="found()" #userGuessInput />
+  <button type="submit" [disabled]="!userGuess() || found()">Guess</button>
+  <button type="button" (click)="resetGame()">Reset Game</button>
+</form>
+<p>{{ feedback() }}</p>
+
+@if (guesses().length > 0) {
+<h3>Your guesses so far:</h3>
+<ol>
+  @for(g of guesses(); track $index) {
+  <li>{{ g.guess }} ({{ g.result }})</li>
+  }
+</ol>
+}
