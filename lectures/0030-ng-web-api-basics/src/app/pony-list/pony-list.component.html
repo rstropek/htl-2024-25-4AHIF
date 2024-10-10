@@ -1,0 +1,9 @@
+<h1>My Little Ponies</h1>
+
+@if (ponies() && ponies()!.length) {
+  <ul>
+    @for(p of ponies(); track p.id) {
+      <li>{{ p.id }}: {{ p.name }}</li>
+    }
+  </ul>
+}
