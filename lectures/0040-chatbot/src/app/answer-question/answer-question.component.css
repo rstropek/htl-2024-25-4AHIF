@@ -1,0 +1,18 @@
+form label {
+    display: block;
+    margin: 0.5rem 0;
+}
+
+form div {
+    display: flex;
+}
+
+form div input {
+    flex: 1;
+    padding: 0.5rem
+}
+
+form div button {
+    margin-left: 0.5rem;
+    padding: 0.5rem 1rem;
+}

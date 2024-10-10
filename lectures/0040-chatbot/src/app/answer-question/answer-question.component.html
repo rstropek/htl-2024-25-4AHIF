@@ -1,0 +1,23 @@
+<h2>Answer Question</h2>
+
+<form (submit)="submit()">
+    <label for="question">Question:</label>
+    <div>
+        <input type="text" list="sample-questions" id="question" #questionInput 
+            name="question" [(ngModel)]="question" placeholder="Enter your question" />
+
+        <datalist id="sample-questions">
+            <option>Are dolphin fish?</option>
+            <option>Give me a checklist for a good body-weight workout</option>
+            <option>What is the best way to learn Angular?</option>
+        </datalist>
+
+        <button type="submit">Submit</button>
+    </div>
+</form>
+
+@if (message()) {
+    <p>{{ message() }}</p>
+}
+
+<markdown [data]="answer()"></markdown>

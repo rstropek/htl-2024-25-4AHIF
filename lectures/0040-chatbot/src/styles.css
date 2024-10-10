@@ -1,0 +1,14 @@
+/* You can add global styles to this file, and also import other style files */
+html {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+body {
+    display: flex;
+    max-width: 50rem;
+    margin: 0 auto;
+}
+
+app-root {
+    width: 100%;
+}
