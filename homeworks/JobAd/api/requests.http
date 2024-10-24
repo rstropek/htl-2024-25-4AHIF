@@ -52,10 +52,9 @@ POST {{host}}/v2/translate
 Content-Type: application/json
 
 {
-  "text": [
-    "We are looking for a 10x developer"
-  ],
-  "target_lang": "DE"
+  "text": "Hello World",
+  "source_lang": "EN",
+  "target_lang": "FR"
 }
 
 ### Translate directly

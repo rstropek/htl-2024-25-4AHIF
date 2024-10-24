@@ -1,82 +1,87 @@
+# Angular Coding Exercise: Job Ads Management UI
 
-# Todo List REST API
+## Introduction
 
-This project is a simple REST API that manages a list of todo items, built using **Node.js**, **Express**, **TypeScript**, and **SQLite**. The API allows you to create, read, update, and delete todo items, as well as filter them by title and assigned user. The todo items are stored in a SQLite database, and Swagger documentation is provided for easy API interaction.
+Welcome to this Angular coding exercise! Your task is to build a web application that interacts with a provided API to manage job advertisements. The application should allow users to view, update, and manage job ads and their translations in multiple languages. The exercise is divided into basic and advanced requirements to guide your development process.
 
-## Features
+In this execise, we use another AI service: DeepL. This service provides professional translation services. You will get an API key from your teacher. **Note** that we have limited credits for this service. Therefore, do not translate long texts.
 
-- **CRUD Operations**: Supports creating, retrieving, updating, and deleting todo items.
-- **Filters**: Ability to filter the todo list by title and assigned user.
-- **SQLite**: Data is stored in a local SQLite database.
-- **CORS Support**: API can be accessed from web browsers (CORS is enabled).
-- **Swagger Documentation**: Interactive API documentation provided via Swagger UI.
+## UI Design
 
-## Getting Started
+This exercise does not require a specific UI design. Coming up with a user-friendly design is part of the exercise. This specification only describes the functionality that must be implemented.
 
-### Prerequisites
+## Basic Requirements
 
-Make sure you have **Node.js** and **npm** installed on your machine. You can download them from [Node.js official website](https://nodejs.org/).
+*These requirements must be completed by everyone.*
 
-### Installation
+1. List of All Job Ads
 
-1. Clone the repository or copy the source code to your local machine.
+   - **Description:** Create a page that displays a list of all job advertisements.
+   - **API Endpoint:** `GET /ads` - Retrieves all job ads.
+   
+2. Delete a Job Ad via a Link
 
-2. Install the required dependencies:
+   - **Description:** Allow users to delete a job ad directly from the list using a link or button.
+   - **API Endpoint:** `DELETE /ads/{id}` - Deletes a job ad by its ID.
 
-   ```bash
-   npm install
-   ```
+3. Link to Job Ad Detail Page
 
-### Build and Run
+   - **Description:** Each job ad in the list should link to its detail page.
+   - **Navigation:** Implement routing to navigate to the detail page of a selected job ad.
 
-1. Compile the TypeScript code to JavaScript:
+4. Job Ad Detail Page Displaying Data and Translations
 
-   ```bash
-   npm run build
-   ```
+   - **Description:** On the job ad detail page, display all the job ad data, including all available translations.
+   - **API Endpoint:** `GET /ads/{id}` - Retrieves a specific job ad by ID, including its translations.
 
-   This will generate the `app.js.js` file in the _dist_ directory.
+5. Update Title and EN Text of a Job Ad
 
-2. Start the server:
+   - **Description:** Allow users to update the title and English text (`textEN`) of a job ad from its detail page.
+   - **API Endpoint:** `PATCH /ads/{id}` - Updates the title and/or `textEN` of a job ad.
 
-   ```bash
-   npm start
-   ```
+## Advanced Requirements
 
-   The API server will run on `http://localhost:3000`.
+*These requirements are for those who want to go beyond the basics.*
 
-3. Access the Swagger UI for API documentation and interactive testing:
+1. Clean and Nice Design
 
-   Open your browser and navigate to `http://localhost:3000/docs`.
+   - **Description:** The application should have a clean and user-friendly design. It doesn't need to be elaborate but should be visually appealing.
 
-## API Operations
+2. Add Translations to Additional Languages
 
-### Endpoints
+   - **Description:** Enable users to add translations for additional languages on the job ad detail page.
+   - **API Endpoint:** `PUT /ads/{id}/translations/{language}` - Upserts a translation for a job ad.
 
-- **Create a Todo Item**:
-  - **POST** `/todos`
-- **List Todo Items**:
-  - **GET** `/todos`
-- **Get a Todo Item by ID**:
-  - **GET** `/todos/{id}`
-- **Update a Todo Item**:
-  - **PATCH** `/todos/{id}`
-- **Delete a Todo Item**:
-  - **DELETE** `/todos/{id}`
+3. Delete Translations of a Job Ad
 
-### Data Structure
+   - **Description:** Allow users to delete translations of a job ad.
+   - **API Endpoint:** `DELETE /ads/{id}/translations/{language}` - Deletes a translation for a specific language.
 
-The todo item has the following fields:
+4. Navigate Back to the List of Job Ads
 
-- `id`: Auto-incremented integer (primary key).
-- `title`: A string representing the title of the todo item.
-- `assignedTo`: A string representing who the task is assigned to.
-- `done`: A boolean indicating whether the todo item is completed.
+   - **Description:** Provide a way for users to navigate back to the list of job ads from the detail page.
 
-## Accessing API Documentation
+5. Auto-Translate Feature
 
-You can explore and interact with the API using the Swagger UI. Once the server is running, navigate to `http://localhost:3000/docs` in your web browser. Swagger provides a full list of available operations and allows you to test them directly from the browser.
+   - **Description:** When adding a translation, include an "Auto-Translate" button that uses the translation API to generate a translated text from English into the selected language.
+   - **API Endpoint:** `POST /deepl/v2/translate` - Translates text using the DeepL API.
 
-## Database
+## Tips
 
-**Note**: The database is persisted in a SQLite file named `todos.db`. The table `todos` is automatically created if it does not exist when the server starts.
+- **Starting the API on your computer:**
+
+  - Navigate to the `_api_` folder.
+  - Run `npm install` to install all dependencies.
+  - Run `npm start` to start the API server.
+
+- **API Documentation:**
+
+  - Access the OpenAPI Specification (Swagger UI) at `http://localhost:3000/swagger`.
+  - Use this interface to explore the API endpoints and test requests.
+
+- **Sample API Requests:**
+
+  - Refer to the `requests.http` file for sample API requests (you need [REST Client extension in VSCode](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) to use it).
+  - These examples can help you understand how to interact with the API.
+
+Happy coding!
