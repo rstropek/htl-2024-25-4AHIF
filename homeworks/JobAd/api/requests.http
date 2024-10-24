@@ -1,0 +1,71 @@
+@host = http://localhost:3000
+
+### Get all job ads
+GET {{host}}/ads
+
+### Create a job ad
+# @name createJobAd
+POST {{host}}/ads
+Content-Type: application/json
+
+{
+  "title": "New Job Ad",
+  "textEN": "Description of the new job ad"
+}
+
+
+### Get a job ad by id
+GET {{host}}/ads/{{createJobAd.response.body.id}}
+
+### Update job ad text
+PATCH {{host}}/ads/{{createJobAd.response.body.id}}
+Content-Type: application/json
+
+{
+  "textEN": "Updated description of the job ad"
+}
+
+### Add a translation to a job ad
+PUT {{host}}/ads/{{createJobAd.response.body.id}}/translations/DE
+Content-Type: application/json
+
+{
+  "translatedText": "German translation of the job ad"
+}
+
+### Update translation
+PUT {{host}}/ads/{{createJobAd.response.body.id}}/translations/DE
+Content-Type: application/json
+
+{
+  "translatedText": "Updated German translation of the job ad"
+}
+
+### Delete translation
+DELETE {{host}}/ads/{{createJobAd.response.body.id}}/translations/DE
+
+### Delete job ad
+DELETE {{host}}/ads/{{createJobAd.response.body.id}}
+
+### Translate text
+POST {{host}}/v2/translate
+Content-Type: application/json
+
+{
+  "text": [
+    "We are looking for a 10x developer"
+  ],
+  "target_lang": "DE"
+}
+
+### Translate directly
+POST https://api-free.deepl.com/v2/translate
+Content-Type: application/json
+Authorization: DeepL-Auth-Key {{$dotenv DEEPL_API_KEY}}
+
+{
+  "text": [
+    "We are looking for a 10x developer"
+  ],
+  "target_lang": "DE"
+}
