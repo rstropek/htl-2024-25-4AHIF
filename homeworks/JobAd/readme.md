@@ -2,9 +2,19 @@
 
 ## Introduction
 
-Welcome to this Angular coding exercise! Your task is to build a web application that interacts with a provided API to manage job advertisements. The application should allow users to view, update, and manage job ads and their translations in multiple languages. The exercise is divided into basic and advanced requirements to guide your development process.
+Welcome to this Angular coding exercise! Your task is to build a web application that interacts with a provided [API](api) to manage job advertisements. The application should allow users to view, update, and manage job ads and their translations in multiple languages. The exercise is divided into basic and advanced requirements to guide your development process.
 
-In this execise, we use another AI service: DeepL. This service provides professional translation services. You will get an API key from your teacher. **Note** that we have limited credits for this service. Therefore, do not translate long texts.
+In this execise, we use another AI service: [DeepL](www.deepl.com). This service provides professional AI-based, professional translation services. You will get an API key from your teacher. **Note** that we have limited credits for this service. Therefore, do not translate long texts.
+
+## Learning Goals
+
+* Practice Angular fundamentals (components, services, routing, HTTP requests, etc.)
+* Work with RESTful APIs
+* Use a third-party artificial intelligence service (DeepL)
+
+## Starter Code
+
+The folder [ui](ui) contains the starter code for this exercise.
 
 ## UI Design
 
@@ -70,18 +80,18 @@ This exercise does not require a specific UI design. Coming up with a user-frien
 
 - **Starting the API on your computer:**
 
-  - Navigate to the `_api_` folder.
+  - Navigate to the [api](api) folder.
   - Run `npm install` to install all dependencies.
   - Run `npm start` to start the API server.
 
 - **API Documentation:**
 
-  - Access the OpenAPI Specification (Swagger UI) at `http://localhost:3000/swagger`.
+  - Access the OpenAPI Specification (Swagger UI) at [http://localhost:3000/swagger](http://localhost:3000/swagger).
   - Use this interface to explore the API endpoints and test requests.
 
 - **Sample API Requests:**
 
-  - Refer to the `requests.http` file for sample API requests (you need [REST Client extension in VSCode](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) to use it).
+  - Refer to the [requests.http](api/requests.http) file for sample API requests (you need [REST Client extension in VSCode](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) to use it).
   - These examples can help you understand how to interact with the API.
 
-Happy coding!
+**Happy coding!**
