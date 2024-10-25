@@ -1,5 +1,7 @@
 # Angular Coding Exercise: Job Ads Management UI
 
+![Hero image](hero.png)
+
 ## Introduction
 
 Welcome to this Angular coding exercise! Your task is to build a web application that interacts with a provided [API](api) to manage job advertisements. The application should allow users to view, update, and manage job ads and their translations in multiple languages. The exercise is divided into basic and advanced requirements to guide your development process.
