@@ -47,13 +47,7 @@ public class Program
         /// <response code="500">Returned when an unexpected error occurs</response>
         app.MapPost("/validate", (SudokuBoard board, byte?[] sudokuBoard) =>
         {
-            return board.Validate(sudokuBoard) switch
-            {
-                SudokuStatus.ValidUnsolved => Results.Ok(new ValidateResponse(true, false)),
-                SudokuStatus.ValidSolved => Results.Ok(new ValidateResponse(true, true)),
-                SudokuStatus.Invalid => Results.Ok(new ValidateResponse(false)),
-                _ => Results.InternalServerError(),
-            };
+            throw new NotImplementedException();
         });
 
         /// <summary>
@@ -68,14 +62,7 @@ public class Program
         /// </response>
         app.MapPost("/set", (SudokuBoard board, SetRequest request) =>
         {
-            if (board.TrySet(request.Board, request.Row, request.Column, request.Value))
-            {
-                return Results.Ok(request.Board);
-            }
-            else
-            {
-                return Results.BadRequest();
-            }
+            throw new NotImplementedException();
         });
 
         app.Run();

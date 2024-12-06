@@ -1,0 +1,15 @@
+/root/github/htl-2024-25-4AHIF/lectures/hello-csharp/bin/Debug/net8.0/hello-csharp
+/root/github/htl-2024-25-4AHIF/lectures/hello-csharp/bin/Debug/net8.0/hello-csharp.deps.json
+/root/github/htl-2024-25-4AHIF/lectures/hello-csharp/bin/Debug/net8.0/hello-csharp.runtimeconfig.json
+/root/github/htl-2024-25-4AHIF/lectures/hello-csharp/bin/Debug/net8.0/hello-csharp.dll
+/root/github/htl-2024-25-4AHIF/lectures/hello-csharp/bin/Debug/net8.0/hello-csharp.pdb
+/root/github/htl-2024-25-4AHIF/lectures/hello-csharp/obj/Debug/net8.0/hello-csharp.GeneratedMSBuildEditorConfig.editorconfig
+/root/github/htl-2024-25-4AHIF/lectures/hello-csharp/obj/Debug/net8.0/hello-csharp.AssemblyInfoInputs.cache
+/root/github/htl-2024-25-4AHIF/lectures/hello-csharp/obj/Debug/net8.0/hello-csharp.AssemblyInfo.cs
+/root/github/htl-2024-25-4AHIF/lectures/hello-csharp/obj/Debug/net8.0/hello-csharp.csproj.CoreCompileInputs.cache
+/root/github/htl-2024-25-4AHIF/lectures/hello-csharp/obj/Debug/net8.0/hello-csharp.sourcelink.json
+/root/github/htl-2024-25-4AHIF/lectures/hello-csharp/obj/Debug/net8.0/hello-csharp.dll
+/root/github/htl-2024-25-4AHIF/lectures/hello-csharp/obj/Debug/net8.0/refint/hello-csharp.dll
+/root/github/htl-2024-25-4AHIF/lectures/hello-csharp/obj/Debug/net8.0/hello-csharp.pdb
+/root/github/htl-2024-25-4AHIF/lectures/hello-csharp/obj/Debug/net8.0/hello-csharp.genruntimeconfig.cache
+/root/github/htl-2024-25-4AHIF/lectures/hello-csharp/obj/Debug/net8.0/ref/hello-csharp.dll
