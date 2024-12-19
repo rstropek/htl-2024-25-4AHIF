@@ -1,0 +1,38 @@
+@host = http://localhost:5145
+
+###
+GET {{host}}/checksum?isbn=9780261102385
+
+###
+GET {{host}}/checksum?isbn=9783499010330
+
+###
+GET {{host}}/checksum?isbn=978349901033
+
+###
+GET {{host}}/checksum?isbn=97834990103851
+
+###
+GET {{host}}/checksum?isbn=97802611023A5
+
+###
+GET {{host}}/checksum?isbn=.780261102385
+
+###
+GET {{host}}/possible-isbns?isbn=97802611023.5
+
+###
+GET {{host}}/possible-isbns?isbn=9780261123.5
+
+###
+POST {{host}}/checksum
+Content-Type: application/json
+
+[
+    "9780261102385",
+    "9783499010330",
+    "978349901033",
+    "97834990103851",
+    "97802611023A5",
+    ".780261102385"
+]
