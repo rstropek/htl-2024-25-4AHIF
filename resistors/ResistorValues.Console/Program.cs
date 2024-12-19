@@ -22,11 +22,34 @@
  * Final value = Resistance ± Tolerance%
  */
 
-List<string> digitColors = ["Black", "Brown", "Red", "Orange", "Yellow", "Green", "Blue", "Violet", "Gray", "White"];
-List<string> multiplierColors = ["Black", "Brown", "Red", "Orange", "Yellow", "Green", "Blue", "Violet", "Gray", "White", "Gold", "Silver"];
-List<double> multiplierValues = [1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000, 0.1, 0.01];
-List<string> toleranceColors = ["Brown", "Red", "Green", "Blue", "Violet", "Gray", "Gold", "Silver", "None"];
-List<double> toleranceValues = [1, 2, 0.5, 0.25, 0.1, 0.05, 5, 10, 20];
+Dictionary<string, double> multipliers = new()
+{
+    ["Black"] = 1,
+    ["Brown"] = 10,
+    ["Red"] = 100,
+    ["Orange"] = 1000,
+    ["Yellow"] = 10000,
+    ["Green"] = 100000,
+    ["Blue"] = 1000000,
+    ["Violet"] = 10000000,
+    ["Gray"] = 100000000,
+    ["White"] = 1000000000,
+    ["Gold"] = 0.1,
+    ["Silver"] = 0.01
+};
+
+Dictionary<string, double> tolerances = new()
+{
+    ["Brown"] = 1,
+    ["Red"] = 2,
+    ["Green"] = 0.5,
+    ["Blue"] = 0.25,
+    ["Violet"] = 0.1,
+    ["Gray"] = 0.05,
+    ["Gold"] = 5,
+    ["Silver"] = 10,
+    ["None"] = 20
+};
 
 Console.WriteLine("Enter the number of color bands (4 or 5): ");
 var numBands = int.Parse(Console.ReadLine()!);
@@ -48,9 +71,9 @@ var multiplierBand = Console.ReadLine()!;
 Console.WriteLine("Enter the color for the tolerance band: ");
 var toleranceBand = Console.ReadLine()!;
 
-var digit1 = digitColors.IndexOf(band1);
-var digit2 = digitColors.IndexOf(band2);
-var digit3 = band3 != null ? digitColors.IndexOf(band3) : -1;
+var digit1 = multipliers[band1];
+var digit2 = multipliers[band2];
+var digit3 = band3 != null ? multipliers[band3] : -1;
 
 var significantFigures = digit1.ToString() + digit2.ToString();
 if (digit3 != -1)
@@ -59,8 +82,8 @@ if (digit3 != -1)
 }
 
 var significantValue = int.Parse(significantFigures);
-var multiplier = multiplierValues[multiplierColors.IndexOf(multiplierBand)];
-var tolerance = toleranceValues[toleranceColors.IndexOf(toleranceBand)];
+var multiplier = multipliers[multiplierBand];
+var tolerance = tolerances[toleranceBand];
 
 var resistance = significantValue * multiplier;
 

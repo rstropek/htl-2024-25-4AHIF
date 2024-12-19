@@ -10,5 +10,6 @@ The logic to calculate the resistor value from the color bands is demonstrated i
 
 ## Advanced Requirements
 
+* Handle errors gracefully (e.g. invalid color bands).
 * Add logic for unit of measure (ohms, kilo-ohms, mega-ohms).
 * Add endpoint for calculating the color bands from a given resistor value.
