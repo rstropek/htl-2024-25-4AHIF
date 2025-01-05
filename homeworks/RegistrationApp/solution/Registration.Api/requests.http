@@ -1,0 +1,46 @@
+@host = http://127.0.0.1:5158
+
+###
+GET {{host}}/
+
+###
+POST {{host}}/api/admin/campaigns
+Accept: application/json
+Content-Type: application/json
+
+{
+}
+
+###
+GET {{host}}/api/admin/campaigns
+
+###
+# @name CreateCampaign
+POST {{host}}/api/admin/campaigns
+Accept: application/json
+Content-Type: application/json
+
+{
+    "name": "Test Campaign",
+    "organizer": "Test Organizer",
+    "dates": [
+        {
+            "date": "2025-06-01",
+            "startTime": "10:00",
+            "endTime": "13:00",
+            "departmentAssignments": [
+                {
+                    "departmentName": "Informatik",
+                    "numberOfSeats": 10
+                }
+            ]
+        }
+    ]
+}
+
+###
+POST {{host}}/api/admin/campaigns/{{CreateCampaign.response.body.id}}/activate
+
+###
+GET {{host}}/api/admin/campaigns/{{CreateCampaign.response.body.id}}
+
