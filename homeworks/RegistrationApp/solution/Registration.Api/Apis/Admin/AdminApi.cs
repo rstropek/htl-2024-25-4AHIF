@@ -8,9 +8,9 @@ public static partial class AdminApi
 {
     public static IServiceCollection AddAdminApi(this IServiceCollection services)
         => services
-            .AddSingleton<IDtoValidator<CreateCampaignRequest>, CreateCampaignValidator>()
-            .AddSingleton<IDtoValidator<CreateDateRequest>, CreateDateValidator>()
-            .AddSingleton<IDtoValidator<DepartmentAssignmentRequest>, DepartmentAssignmentValidator>();
+            .AddSingleton<IDtoValidator<CampaignCreationApi.CreateCampaignRequest>, CampaignCreationApi.CampaignValidator>()
+            .AddSingleton<IDtoValidator<CampaignCreationApi.CreateDateRequest>, CampaignCreationApi.DateValidator>()
+            .AddSingleton<IDtoValidator<CampaignCreationApi.DepartmentAssignmentRequest>, CampaignCreationApi.DepartmentAssignmentValidator>();
 
     public static IEndpointRouteBuilder MapAdminApi(this IEndpointRouteBuilder app)
     {
@@ -22,25 +22,25 @@ public static partial class AdminApi
 
         // Note that it is good practice to add a name, summary, etc. to each endpoint.
         // Note the presence of the validation filter. It ensures that the DTO is validated before the endpoint is called.
-        api.MapPost("/campaigns", CreateCampaign)
-            .AddValidationFilter<CreateCampaignRequest>()
+        api.MapPost("/campaigns", CampaignCreationApi.CreateCampaign)
+            .AddValidationFilter<CampaignCreationApi.CreateCampaignRequest>()
             .WithName("CreateCampaign")
             .WithSummary("Create a new campaign including initial dates and department assignments")
             .WithDescription("""
                 Creates a new campaign including initial dates and department assignments.
                 The campaign is inactive by default and must be activated explicitly.
                 """)
-            .Produces<CreateCampaignResponse>(StatusCodes.Status201Created)
+            .Produces<CampaignCreationApi.CreateCampaignResponse>(StatusCodes.Status201Created)
             .Produces<ProblemDetails>(StatusCodes.Status400BadRequest);
-    
 
-        api.MapPost("/campaigns/{campaignId}/activate", ActivateCampaign)
+
+        api.MapPost("/campaigns/{campaignId}/activate", CampaignActivationApi.ActivateCampaign)
             .WithName("ActivateCampaign")
             .WithSummary("Activate a campaign")
             .Produces<ProblemDetails>(StatusCodes.Status409Conflict)
             .Produces<ProblemDetails>(StatusCodes.Status404NotFound);
 
-        api.MapDelete("/campaigns/{campaignId}", DeleteCampaign)
+        api.MapDelete("/campaigns/{campaignId}", CampaignDeletionApi.DeleteCampaign)
             .WithName("DeleteCampaign")
             .WithSummary("Delete a campaign")
             .WithDescription("Deletes a campaign if it has no existing registrations")
@@ -48,16 +48,24 @@ public static partial class AdminApi
             .Produces<ProblemDetails>(StatusCodes.Status409Conflict)
             .Produces<ProblemDetails>(StatusCodes.Status404NotFound);
 
-        api.MapGet("/campaigns", GetCampaigns)
+        api.MapGet("/campaigns", CampaignRetrievalApi.GetCampaigns)
             .WithName("GetCampaigns")
             .WithSummary("Get all campaigns")
             .Produces<IEnumerable<Guid>>(StatusCodes.Status200OK);
 
-        api.MapGet("/campaigns/{campaignId}", GetCampaign)
+        api.MapGet("/campaigns/{campaignId}", CampaignRetrievalApi.GetCampaign)
             .WithName("GetCampaign")
             .WithSummary("Get a campaign")
             .Produces<Campaign>(StatusCodes.Status200OK)
             .Produces<ProblemDetails>(StatusCodes.Status404NotFound);
+
+        api.MapPatch("/campaigns/{campaignId}", CampaignUpdateApi.UpdateCampaign)
+            .WithName("UpdateCampaign")
+            .WithSummary("Update a campaign")
+            .Produces<Campaign>(StatusCodes.Status200OK)
+            .Produces<ProblemDetails>(StatusCodes.Status404NotFound)
+            .Produces<ProblemDetails>(StatusCodes.Status403Forbidden)
+            .Produces<ProblemDetails>(StatusCodes.Status409Conflict);
 
         // Return the app so that we can chain other methods to it.
         return app;

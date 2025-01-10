@@ -4,11 +4,11 @@ using Registration.Api.DataAccess;
 
 namespace Registration.Api.Apis.Admin;
 
-public static partial class AdminApi
+public static class CampaignRetrievalApi
 {
-    private static async Task<IResult> GetCampaign([FromRoute] Guid campaignId, IJsonFileRepository repository)
+    public static async Task<IResult> GetCampaign([FromRoute] Guid campaignId, IJsonFileRepository repository)
     {
-        using var campaignStream = repository.Open(campaignId);
+        using var campaignStream = await repository.Open(campaignId, false);
         if (campaignStream is null)
         {
             return Results.NotFound();
@@ -20,6 +20,6 @@ public static partial class AdminApi
         return Results.Ok(campaign);
     }
 
-    private static Ok<IEnumerable<Guid>> GetCampaigns(IJsonFileRepository repository)
+    public static Ok<IEnumerable<Guid>> GetCampaigns(IJsonFileRepository repository)
         => TypedResults.Ok(repository.EnumerateAll().Select(item => item.Id));
 }
