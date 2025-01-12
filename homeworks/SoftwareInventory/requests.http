@@ -63,29 +63,6 @@ Content-Type: application/json
     "version": "1.2.3.4"
 }
 
-### Find outdated software
-# Try this request with different version numbers:
-# 1.2.3 -> returns the computer
-# 1.2.4 -> returns the computer
-# 2.0.0 -> returns the computer
-# 1.1.0 -> does not return the computer
-POST {{host}}/computers/find-outdated
-Content-Type: application/json
-
-{
-    "softwareIdentifier": "d8f3a1e6-9b2c-4f8d-a5d7-8e94b5c2f31d",
-    "version": "1.1.0"
-}
-
-### Find outdated with invalid version number
-POST {{host}}/computers/find-outdated
-Content-Type: application/json
-
-{
-    "softwareIdentifier": "d8f3a1e6-9b2c-4f8d-a5d7-8e94b5c2f31d",
-    "version": "1.1.0.1"
-}
-
 ### Find installations of a software
 # Try this request with different version numbers:
 # 1.2.3 -> returns the computer

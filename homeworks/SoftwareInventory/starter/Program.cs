@@ -1,10 +1,6 @@
 using System.Text.Json.Serialization;
 using SoftwareInventoryApi;
-using SoftwareInventoryApi.Apis.ComputerManagement;
-using SoftwareInventoryApi.Apis.Security;
-using SoftwareInventoryApi.Apis.SoftwareManagement;
 using SoftwareInventoryApi.DataAccess;
-using SoftwareInventoryApi.Logic;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +13,6 @@ if (!Directory.Exists(dataPath))
 }
 
 builder.Services.AddSingleton<IJsonFileRepository>(_ => new JsonFileRepository(repositorySettings));
-builder.Services.AddSingleton<VersionChecker>();
 
 // Ensure that C# enums are serialized as strings, not integers
 builder.Services.ConfigureHttpJsonOptions(options => {
@@ -29,8 +24,6 @@ var app = builder.Build();
 // Add exception handline (see ./CrossCuttingConcerns/ExceptionHandlingMiddleware.cs)
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-app.MapComputerManagementApi()
-    .MapSoftwareManagementApi()
-    .MapSecurityApi();
+// Map your APIs here
 
 app.Run();
