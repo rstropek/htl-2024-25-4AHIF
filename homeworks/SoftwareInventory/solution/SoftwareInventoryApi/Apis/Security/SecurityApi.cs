@@ -7,9 +7,8 @@ public static partial class SecurityApi
 {
     public static IEndpointRouteBuilder MapSecurityApi(this IEndpointRouteBuilder app)
     {
-        var api = app.MapGroup("computers");
-
-        api.MapGet("/find-outdated", FindOutdatedApi.HandleFindOutdated)
+        app.MapPost("/computers/find-outdated", FindOutdatedApi.HandleFindOutdated)
+            .AddEndpointFilter(ValidationHelpers.GetEndpointFilter<FindOutdatedApi.FindOutdatedRequest>(FindOutdatedApi.ValidateFindOutdatedRequest))
             .WithName(nameof(FindOutdatedApi.HandleFindOutdated))
             .WithDescription("Finds computers with outdated software")
             .Produces<ProblemDetails>(StatusCodes.Status400BadRequest)

@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using SoftwareInventoryApi;
 using SoftwareInventoryApi.Apis.ComputerManagement;
 using SoftwareInventoryApi.Apis.Security;
 using SoftwareInventoryApi.Apis.SoftwareManagement;
@@ -19,8 +20,15 @@ builder.Services.AddSingleton<VersionChecker>();
 builder.Services.ConfigureHttpJsonOptions(options => {
     options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
+builder.Services.Configure<RouteHandlerOptions>(options =>
+{
+    options.ThrowOnBadRequest = true;
+});
 
 var app = builder.Build();
+
+// Add exception handline (see ./CrossCuttingConcerns/ExceptionHandlingMiddleware.cs)
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.MapComputerManagementApi()
     .MapSoftwareManagementApi()

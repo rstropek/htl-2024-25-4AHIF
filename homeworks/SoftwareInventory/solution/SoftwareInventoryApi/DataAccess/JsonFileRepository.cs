@@ -49,7 +49,7 @@ public interface IJsonFileRepository
     /// <returns>
     /// The entity stored in the stream.
     /// </returns>
-    Task<T?> Get<T>(FileStream stream);
+    Task<T> Get<T>(FileStream stream);
 
     /// <summary>
     /// Updates an entity in the repository using the provided file stream.
@@ -60,6 +60,7 @@ public interface IJsonFileRepository
     /// <remarks>
     /// The stream must be obtained using the <see cref="Open"/> method to ensure proper locking.
     /// The stream will be cleared and its position reset before writing the updated entity.
+    /// The stream will be closed after the update.
     /// </remarks>
     Task Update<T>(FileStream stream, T entity);
 
@@ -130,10 +131,16 @@ public class JsonFileRepository(RepositorySettings settings) : IJsonFileReposito
     }
 
     /// <inheritdoc />
-    public async Task<T?> Get<T>(FileStream stream)
+    public async Task<T> Get<T>(FileStream stream)
     {
         stream.Position = 0;
-        return await JsonSerializer.DeserializeAsync<T>(stream, jsonSerializerOptions);
+        var result = await JsonSerializer.DeserializeAsync<T>(stream, jsonSerializerOptions);
+        if (result == null)
+        {
+            throw new InvalidOperationException($"Failed to read existing computer data for {stream.Name}");
+        }
+
+        return result;
     }
 
     /// <inheritdoc />
@@ -142,6 +149,7 @@ public class JsonFileRepository(RepositorySettings settings) : IJsonFileReposito
         stream.Position = 0;
         stream.SetLength(0);
         await JsonSerializer.SerializeAsync(stream, entity, jsonSerializerOptions);
+        stream.Close();
     }
 
     /// <inheritdoc />

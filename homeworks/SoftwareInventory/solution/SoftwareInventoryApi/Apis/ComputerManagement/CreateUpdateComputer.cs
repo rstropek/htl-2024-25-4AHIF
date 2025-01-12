@@ -1,19 +1,28 @@
-using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Mvc;
 using SoftwareInventoryApi.DataAccess;
 
 namespace SoftwareInventoryApi.Apis.ComputerManagement;
 
 public static class CreateUpdateComputer
 {
-    public static async Task<IResult> HandleCreateUpdate(ComputerDto computer, IJsonFileRepository repository)
+    public static async Task<IResult> HandleCreateUpdate([FromBody] ComputerDto computer, IJsonFileRepository repository)
     {
-        var id = computer.MacAddress.Replace(":", "");
+        // ⚠️ Note: The DTO from the HTTP request body MUST BE THE FIRST argument of the endpoint.
 
-        await using var stream = await repository.Open(id, forWriting: true);
+        // ⚠️ Note that this method returns different results for different scenarios. Therefore,
+        // IResult is the correct return type.
+
+        var macWithoutSeparators = computer.MacAddress.Replace(":", "");
+
+        await using var stream = await repository.Open(macWithoutSeparators, forWriting: true);
         if (stream == null)
         {
             // Computer doesn't exist - create new
-            var computerEntity = new DataAccess.Computer
+
+            // ⚠️ Note that in practice, AutoMapper (https://automapper.org/) is often used to map DTOs to 
+            // other data structures. You are NOT required to use AutoMapper. However, if you are familiar with it,
+            // you can use it.
+            var computerEntity = new Computer
             {
                 MacAddress = computer.MacAddress,
                 IpAddress = computer.IpAddress,
@@ -25,23 +34,23 @@ public static class CreateUpdateComputer
                 LastUpdated = DateTime.UtcNow
             };
 
-            // ⚠️ Note ⚠️ that in practice there is a HUGE discussion whether it is a good idea to
-            // return the data structure (Computer) from the data access layer to the caller.
-            // The argument is that the caller should not know about the internal data structure
-            // of the data access layer. However, in this rather simple example, the DTO in the
-            // API layer would be identical to the data structure in the data access layer.
-            // Therefore, it is OK to return the data structure from the data access layer to the caller.
-            // However, if the model of the data access layer would contain data that should not be
-            // exposed to the caller, then we would need to create a result DTO for the API layer
-            // and copy the data from the data access layer to the result DTO.
-
-            var item = await repository.Create(id, computerEntity);
+            // ⚠️ Note While the DTO and data model are currently similar, we should maintain
+            // separation between API and data access layers. In a production environment, you should consider:
+            //
+            // 1. Create separate response DTOs
+            // 2. Use mapping (manual or via AutoMapper) between layers
+            // 3. Never expose internal data models directly through the API
+            //
+            // Use this approach (returning the data model of the data access layer) only for simple applications
+            // where it is very likely that the DTO and data model are identical. Once requirements change,
+            // introduce a separate response DTO for the API layer.
+            var item = await repository.Create(macWithoutSeparators, computerEntity);
             return Results.Created($"/computers/{item.Id}", computerEntity);
         }
         else
         {
             // Computer exists - update
-            var existingComputer = await repository.Get<DataAccess.Computer>(stream) ?? throw new InvalidOperationException("Failed to read existing computer data");
+            var existingComputer = await repository.Get<Computer>(stream);
 
             existingComputer.IpAddress = computer.IpAddress;
             existingComputer.Hostname = computer.Hostname;
@@ -60,6 +69,8 @@ public static class CreateUpdateComputer
     #region DTOs
     public class ComputerDto
     {
+        // Note that `required` ensures that the user of the API MUST provide a value for the property.
+
         public required string MacAddress { get; set; }
         public required string IpAddress { get; set; }
         public required string Hostname { get; set; }
@@ -71,79 +82,81 @@ public static class CreateUpdateComputer
     #endregion
 
     #region Validation
-    public static async ValueTask<object?> ValidateComputerDto(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
+    public static Dictionary<string, string[]> ValidateComputerDto(ComputerDto computer)
     {
-        var computer = context.GetArgument<ComputerDto>(0);
+        // Create a dictionary to store validation errors. The key is the property name 
+        // and the value is an array of error messages. If the validation passes, an empty 
+        // dictionary is returned.
         var errors = new Dictionary<string, string[]>();
 
         // MAC Address validation
         if (string.IsNullOrWhiteSpace(computer.MacAddress))
         {
-            errors["MacAddress"] = ["MAC address is required"];
+            errors[nameof(computer.MacAddress)] = ["MAC address is required"];
         }
-        else if (!Regex.IsMatch(computer.MacAddress, @"^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$"))
+        else if (!ValidationHelpers.MacAddressRegex().IsMatch(computer.MacAddress))
         {
-            errors["MacAddress"] = ["MAC address must be in format XX:XX:XX:XX:XX:XX where X is a hex digit"];
+            errors[nameof(computer.MacAddress)] = ["MAC address must be in format XX:XX:XX:XX:XX:XX where X is a hex digit"];
         }
 
         // IP Address validation
         if (string.IsNullOrWhiteSpace(computer.IpAddress))
         {
-            errors["IpAddress"] = ["IP address is required"];
+            errors[nameof(computer.IpAddress)] = ["IP address is required"];
+        }
+        else if (!ValidationHelpers.IsValidIpAddress(computer.IpAddress))
+        {
+            errors[nameof(computer.IpAddress)] = ["IP address must be in format XXX.XXX.XXX.XXX where X is a digit and XXX is between 0 and 255"];
         }
 
         // Hostname validation
         if (string.IsNullOrWhiteSpace(computer.Hostname))
         {
-            errors["Hostname"] = ["Hostname is required"];
+            errors[nameof(computer.Hostname)] = ["Hostname is required"];
         }
 
         // CPU validation
         if (string.IsNullOrWhiteSpace(computer.Cpu))
         {
-            errors["Cpu"] = new[] { "CPU information is required" };
+            errors[nameof(computer.Cpu)] = ["CPU information is required"];
         }
 
         // RAM validation
         if (computer.RamGb <= 0)
         {
-            errors["RamGb"] = ["RAM size must be greater than 0 GB"];
+            errors[nameof(computer.RamGb)] = ["RAM size must be greater than 0 GB"];
         }
         else if (computer.RamGb > 10000)
         {
-            errors["RamGb"] = ["RAM size must be less than or equal to 10000 GB"];
+            errors[nameof(computer.RamGb)] = ["RAM size must be less than or equal to 10000 GB"];
         }
         else if (computer.RamGb != Math.Round(computer.RamGb, 2))
         {
-            errors["RamGb"] = ["RAM size must have at most 2 decimal places"];
+            errors[nameof(computer.RamGb)] = ["RAM size must have at most 2 decimal places"];
         }
 
         // Disk Size validation
         if (computer.DiskSizeGb <= 0)
         {
-            errors["DiskSizeGb"] = ["Disk size must be greater than 0 GB"];
+            errors[nameof(computer.DiskSizeGb)] = ["Disk size must be greater than 0 GB"];
         }
         else if (computer.DiskSizeGb > 100000)
         {
-            errors["DiskSizeGb"] = ["Disk size must be less than or equal to 100000 GB"];
+            errors[nameof(computer.DiskSizeGb)] = ["Disk size must be less than or equal to 100000 GB"];
         }
         else if (computer.DiskSizeGb != Math.Round(computer.DiskSizeGb, 2))
         {
-            errors["DiskSizeGb"] = ["Disk size must have at most 2 decimal places"];
+            errors[nameof(computer.DiskSizeGb)] = ["Disk size must have at most 2 decimal places"];
         }
 
         // OS validation
         if (!Enum.IsDefined(computer.Os))
         {
-            errors["Os"] = ["Invalid operating system value"];
+            errors[nameof(computer.Os)] = ["Invalid operating system value"];
         }
 
-        if (errors.Any())
-        {
-            return Results.ValidationProblem(errors);
-        }
-
-        return await next(context);
+        return errors;
     }
+ 
     #endregion
 }

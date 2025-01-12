@@ -1,1 +1,0 @@
-public bool Decommissioned { get; set; } 
