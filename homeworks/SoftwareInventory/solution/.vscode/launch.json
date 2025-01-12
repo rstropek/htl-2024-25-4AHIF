@@ -13,9 +13,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/SoftwareInventoryApi/bin/Debug/net9.0/SoftwareInventoryApi.dll",
+            "program": "${workspaceFolder}/bin/Debug/net9.0/SoftwareInventoryApi.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/SoftwareInventoryApi",
+            "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
