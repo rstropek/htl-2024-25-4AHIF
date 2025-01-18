@@ -1,0 +1,152 @@
+@host = http://localhost:5140
+
+###################################################################
+# Assign a garden to a member with horizontal path name
+POST {{host}}/gardens/Radish Road 1
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "email": "john.doe@example.com"
+}
+
+###
+# Assign a garden to a member with vertical path name
+POST {{host}}/gardens/Lentil Lane 2
+Content-Type: application/json
+
+{
+    "name": "Jane Doe",
+    "email": "jane.doe@example.com"
+}
+
+###
+# Assign with invalid garden name
+POST {{host}}/gardens/Gibberish Lane 99
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "email": "john.doe@example.com"
+}
+
+###
+# Assign with valid garden name, but invalid number
+POST {{host}}/gardens/Radish Road 6
+Content-Type: application/json
+
+{
+    "name": "John Doe",
+    "email": "john.doe@example.com"
+}
+
+###
+# Assign with invalid member data
+POST {{host}}/gardens/Radish Road 1
+Content-Type: application/json
+
+{
+    "name": "",
+    "email": "john.doe@example.com"
+}
+
+###
+# Try to assign a garden that is already assigned
+POST {{host}}/gardens/Radish Road 1
+Content-Type: application/json
+
+{
+    "name": "Someone Else",
+    "email": "someone.else@example.com"
+}
+
+###################################################################
+# Unassign a garden
+DELETE {{host}}/gardens/Spinach Spur 2
+
+###
+# Try to unassign a garden that is not assigned
+DELETE {{host}}/gardens/Spinach Spur 2
+
+###
+# Unassign a garden with invalid garden name
+DELETE {{host}}/gardens/Gibberish Lane 99
+
+###
+# Unassign a garden with invalid number
+DELETE {{host}}/gardens/Spinach Spur 6
+
+###################################################################
+# Get a garden assignment
+GET {{host}}/gardens/Artichoke Alley 1
+
+###
+# Get a garden assignment with invalid garden name
+GET {{host}}/gardens/Gibberish Lane 99
+
+###
+# Get a garden assignment with invalid number
+GET {{host}}/gardens/Spinach Spur 6
+
+###################################################################
+# Notify members of monster bunnies
+# Add sample data
+POST {{host}}/gardens/Garlic Grove 3
+Content-Type: application/json
+
+{ "name": "Invested", "email": "invested@example.com" }
+
+###
+POST {{host}}/gardens/Pumpkin Parkway 3
+Content-Type: application/json
+
+{ "name": "North", "email": "north@example.com" }
+
+###
+POST {{host}}/gardens/Onion Alley 3
+Content-Type: application/json
+
+{ "name": "South", "email": "south@example.com" }
+
+###
+# Notify members of monster bunnies
+GET {{host}}/gardens/Garlic Grove 3/members
+
+###
+# Notify members of monster bunnies (garden on the edge)
+GET {{host}}/gardens/Radish Road 1/members
+
+###################################################################
+# Get fertility points
+GET {{host}}/gardens/Spinach Spur 4/fertility-points
+
+###
+GET {{host}}/gardens/Pepper Promenade 2/fertility-points
+
+###
+GET {{host}}/gardens/Pumpkin Parkway 3/fertility-points
+
+###################################################################
+# Get member fees. Note: Delete all members before running this.
+# Add sample data
+POST {{host}}/gardens/Garlic Grove 4
+Content-Type: application/json
+
+{ "name": "Tim", "email": "tim@example.com" }
+
+###
+POST {{host}}/gardens/Pumpkin Parkway 3
+Content-Type: application/json
+
+{ "name": "Jim", "email": "jim@example.com" }
+
+###
+POST {{host}}/gardens/Onion Alley 1
+Content-Type: application/json
+
+{ "name": "Tim", "email": "tim@example.com" }
+
+###
+# Jim = 8 * 3 * 1 = 24€
+# Tim = 8 * 3 * 1.5 + 8 * 3 * 0.5 = 48€
+GET {{host}}/gardens/fees
