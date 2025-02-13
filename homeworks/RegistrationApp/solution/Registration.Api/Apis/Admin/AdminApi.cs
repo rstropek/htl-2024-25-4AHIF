@@ -24,7 +24,7 @@ public static partial class AdminApi
         // Note the presence of the validation filter. It ensures that the DTO is validated before the endpoint is called.
         api.MapPost("/campaigns", CreateCampaign)
             .AddValidationFilter<CreateCampaignRequest>()
-            .WithName("CreateCampaign")
+            .WithName(nameof(CreateCampaign))
             .WithSummary("Create a new campaign including initial dates and department assignments")
             .WithDescription("""
                 Creates a new campaign including initial dates and department assignments.
@@ -37,6 +37,7 @@ public static partial class AdminApi
         api.MapPost("/campaigns/{campaignId}/activate", ActivateCampaign)
             .WithName("ActivateCampaign")
             .WithSummary("Activate a campaign")
+            .Produces(StatusCodes.Status200OK)
             .Produces<ProblemDetails>(StatusCodes.Status409Conflict)
             .Produces<ProblemDetails>(StatusCodes.Status404NotFound);
 
