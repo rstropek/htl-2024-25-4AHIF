@@ -4,11 +4,11 @@ using Registration.Api.DataAccess;
 
 namespace Registration.Api.Apis.Admin;
 
-public static partial class AdminApi
+public static class CampaignActivationApi
 {
-    private static async Task<IResult> ActivateCampaign([FromRoute] Guid campaignId, IJsonFileRepository repository, IOptions<ErrorHandlingOptions> settings)
+    public static async Task<IResult> ActivateCampaign([FromRoute] Guid campaignId, IJsonFileRepository repository, IOptions<ErrorHandlingOptions> settings)
     {
-        using var campaignStream = repository.Open(campaignId);
+        using var campaignStream = await repository.Open(campaignId, true);
         if (campaignStream is null)
         {
             // Not found is self-explanatory, so we do not need to add a problem details object.
@@ -42,5 +42,3 @@ public static partial class AdminApi
         return Results.Ok();
     }
 }
-
-public record ActivateCampaignRequest(Guid CampaignId);

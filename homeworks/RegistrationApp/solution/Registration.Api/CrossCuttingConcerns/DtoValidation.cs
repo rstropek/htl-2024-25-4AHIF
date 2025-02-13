@@ -90,3 +90,12 @@ public static class RouteHandlerBuilderExtensions
     public static RouteHandlerBuilder AddValidationFilter<T>(this RouteHandlerBuilder builder)
         => builder.AddEndpointFilter<ValidationResultFilter<IDtoValidator<T>, T>>();
 }
+
+public static class ValidationHelpers
+{
+    public static IEnumerable<T2> FindDuplicates<T1, T2>(IEnumerable<T1> items, Func<T1, T2> grouping)
+        => items
+            .GroupBy(grouping)
+            .Where(g => g.Count() > 1)
+            .Select(g => g.Key);
+}

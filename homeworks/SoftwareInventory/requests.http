@@ -1,0 +1,98 @@
+@host = http://localhost:5140
+
+### Add a valid computer
+# Try this request multiple times with changed hostname to check if updating works
+POST {{host}}/computers
+Content-Type: application/json
+
+{
+    "macAddress": "00:11:22:33:44:55",
+    "ipAddress": "192.168.1.100",
+    "hostname": "my-computer2",
+    "cpu": "Intel Core i7-11700K",
+    "ramGb": 16,
+    "diskSizeGb": 512,
+    "os": "Windows"
+}
+
+### Add a computer with invalid RAM size
+POST {{host}}/computers
+Content-Type: application/json
+
+{
+    "macAddress": "00:11:22:33:44:55",
+    "ipAddress": "192.168.1.100",
+    "hostname": "my-computer",
+    "cpu": "Intel Core i7-11700K",
+    "ramGb": -1,
+    "diskSizeGb": 512,
+    "os": "Windows"
+}
+
+### Add software to a computer
+# Try this request multiple times to check if lastReported is updated
+POST {{host}}/computers/00:11:22:33:44:55/software
+Content-Type: application/json
+
+{
+    "identifier": "d8f3a1e6-9b2c-4f8d-a5d7-8e94b5c2f31d",
+    "name": "Turbo CAD",
+    "vendor": "Giga CAD/CAM",
+    "version": "1.2.3"
+}
+
+### Add a software to a computer that does not exist
+POST {{host}}/computers/01:11:22:33:44:55/software
+Content-Type: application/json
+
+{
+    "identifier": "d8f3a1e6-9b2c-4f8d-a5d7-8e94b5c2f31d",
+    "name": "Turbo CAD",
+    "vendor": "Giga CAD/CAM",
+    "version": "1.2.3"
+}
+
+### Add with invalid version number
+POST {{host}}/computers/00:11:22:33:44:55/software
+Content-Type: application/json
+
+{
+    "identifier": "d8f3a1e6-9b2c-4f8d-a5d7-8e94b5c2f31d",
+    "name": "Turbo CAD",
+    "vendor": "Giga CAD/CAM",
+    "version": "1.2.3.4"
+}
+
+### Find installations of a software
+# Try this request with different version numbers:
+# 1.2.3 -> returns the computer
+# 1.2.4 -> does not return the computer
+# ^1.1.0 -> returns the computer
+# ^1.2.0 -> returns the computer
+# ^1.3.0 -> does not return the computer
+# ~1.1.0 -> does not return the computer
+# ~1.2.0 -> returns the computer
+# ~1.2.4 -> does not return the computer
+# ~1.3.0 -> does not return the computer
+# no version number -> returns the computer
+POST {{host}}/computers/find-installations
+Content-Type: application/json
+
+{
+    "softwareIdentifier": "d8f3a1e6-9b2c-4f8d-a5d7-8e94b5c2f31d",
+    "versionFilter": "1.2.3"
+}
+
+### Find installations with invalid version number
+POST {{host}}/computers/find-installations
+Content-Type: application/json
+
+{
+    "softwareIdentifier": "d8f3a1e6-9b2c-4f8d-a5d7-8e94b5c2f31d",
+    "versionFilter": "1.1.0.1"
+}
+
+### Decommission a computer
+# Update the corresponding lastUpdated date in the json file to a date at least 30 daysbefore the current date
+POST {{host}}/computers/check-decommissioned
+Content-Type: application/json

@@ -17,7 +17,7 @@ if (!Directory.Exists(dataPath))
 
 // Add the services required for the admin API
 builder.Services.AddAdminApi();
-builder.Services.AddSingleton<IJsonFileRepository>(_ => new JsonFileRepository(dataPath));
+builder.Services.AddSingleton<IJsonFileRepository>(_ => new JsonFileRepository(repositorySettings));
 builder.Services.Configure<RepositorySettings>(builder.Configuration.GetSection("RepositorySettings"));
 builder.Services.Configure<ErrorHandlingOptions>(builder.Configuration.GetSection("ErrorHandling"));
 builder.Services.ConfigureHttpJsonOptions(options => {

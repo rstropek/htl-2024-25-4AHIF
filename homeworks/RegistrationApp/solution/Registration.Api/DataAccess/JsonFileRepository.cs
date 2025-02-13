@@ -1,7 +1,3 @@
-// We disable CA1416 because we use file locks that are not available on macOS.
-// However, in this app, we do not need to support macOS.
-#pragma warning disable CA1416 // Validate platform compatibility
-
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -33,12 +29,13 @@ public interface IJsonFileRepository
     /// Opens a file stream for an entity with exclusive locking.
     /// </summary>
     /// <param name="id">The unique identifier of the entity.</param>
+    /// <param name="forWriting">Whether the stream should be opened for writing (true) or reading (false).</param>
     /// <returns>
     /// A locked <see cref="FileStream"/> if the entity exists; otherwise, null.
     /// The caller is responsible for disposing the stream. <see cref="Update"/> 
     /// will dispose the stream after the update.
     /// </returns>
-    FileStream? Open(Guid id);
+    Task<FileStream?> Open(Guid id, bool forWriting);
 
     /// <summary>
     /// Retrieves an entity by its ID.
@@ -47,6 +44,7 @@ public interface IJsonFileRepository
     /// <param name="stream">The file stream obtained from <see cref="Open"/>.</param>
     /// <remarks>
     /// The stream must be obtained using the <see cref="Open"/> method to ensure proper locking.
+    /// The stream position will be reset to the beginning before reading.
     /// </remarks>
     /// <returns>
     /// The entity stored in the stream.
@@ -61,6 +59,7 @@ public interface IJsonFileRepository
     /// <param name="entity">The updated entity data.</param>
     /// <remarks>
     /// The stream must be obtained using the <see cref="Open"/> method to ensure proper locking.
+    /// The stream will be cleared and its position reset before writing the updated entity.
     /// </remarks>
     Task Update<T>(FileStream stream, T entity);
 
@@ -76,7 +75,7 @@ public interface IJsonFileRepository
 /// Each entity is stored in a separate JSON file named with its GUID.
 /// </summary>
 /// <param name="folder">The directory path where JSON files will be stored.</param>
-public class JsonFileRepository(string folder) : IJsonFileRepository
+public class JsonFileRepository(RepositorySettings settings) : IJsonFileRepository
 {
     private readonly JsonSerializerOptions jsonSerializerOptions = new()
     {
@@ -89,30 +88,45 @@ public class JsonFileRepository(string folder) : IJsonFileRepository
     public async Task<Item> Create<T>(Guid id, T entity)
     {
         var json = JsonSerializer.Serialize(entity, jsonSerializerOptions);
-        var filePath = Path.Combine(folder, $"{id:N}.json"); // Use Guid as the file name
+        var filePath = Path.Combine(settings.DataFolder, $"{id:N}.json"); // Use Guid as the file name
         await File.WriteAllTextAsync(filePath, json);
         return new Item(id, filePath);
     }
 
     /// <inheritdoc />
     public IEnumerable<Item> EnumerateAll()
-        => Directory.EnumerateFiles(folder)
+        => Directory.EnumerateFiles(settings.DataFolder)
             .Select(file => new Item(Guid.ParseExact(Path.GetFileNameWithoutExtension(file), "N"), file));
 
     /// <inheritdoc />
-    public FileStream? Open(Guid id)
+    public async Task<FileStream?> Open(Guid id, bool forWriting)
     {
-        var filePath = Path.Combine(folder, $"{id:N}.json");
-        try
+        var filePath = Path.Combine(settings.DataFolder, $"{id:N}.json");
+        for (var retryCount = 0; retryCount < settings.NumberOfRetries; retryCount++)
         {
-            var stream = new FileStream(filePath, FileMode.Open);
-            stream.Lock(0, stream.Length);
-            return stream;
+            try
+            {
+                var stream = new FileStream(filePath, FileMode.Open, forWriting switch
+                {
+                    true => FileAccess.ReadWrite,
+                    false => FileAccess.Read
+                }, forWriting switch
+                {
+                    true => FileShare.None,
+                    false => FileShare.Read
+                });
+                return stream;
+            }
+            catch (FileNotFoundException)
+            {
+                return null;
+            }
+            catch (IOException)
+            {
+                await Task.Delay(settings.RetryDelayMilliseconds);
+            }
         }
-        catch (FileNotFoundException)
-        {
-            return null;
-        }
+        return null;
     }
 
     /// <inheritdoc />
@@ -134,7 +148,7 @@ public class JsonFileRepository(string folder) : IJsonFileRepository
     public void Delete(Guid id)
     {
         // Regarding async: Same problem as above in EnumerateAll.
-        var filePath = Path.Combine(folder, $"{id:N}.json");
+        var filePath = Path.Combine(settings.DataFolder, $"{id:N}.json");
         File.Delete(filePath);
     }
 }

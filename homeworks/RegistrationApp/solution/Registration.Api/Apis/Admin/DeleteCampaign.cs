@@ -4,11 +4,11 @@ using Registration.Api.DataAccess;
 
 namespace Registration.Api.Apis.Admin;
 
-public static partial class AdminApi
+public static class CampaignDeletionApi
 {
-    private static async Task<IResult> DeleteCampaign([FromRoute] Guid campaignId, IJsonFileRepository repository, IOptions<ErrorHandlingOptions> settings)
+    public static async Task<IResult> DeleteCampaign([FromRoute] Guid campaignId, IJsonFileRepository repository, IOptions<ErrorHandlingOptions> settings)
     {
-        using (var campaignStream = repository.Open(campaignId))
+        using (var campaignStream = await repository.Open(campaignId, false))
         {
             if (campaignStream is null)
             {

@@ -13,7 +13,7 @@ public class Campaign
     public required Guid Id { get; set; }
     public required string Name { get; set; }
     public required string Organizer { get; set; }
-    public Collection<CampaignDate> Dates { get; set; } = [];
+    public List<CampaignDate> Dates { get; set; } = [];
     public decimal? ReservedRatioForGirls { get; set; }
     public DateOnly? PurgeDate { get; set; }
     public CampaignStatus Status { get; set; } = CampaignStatus.Inactive;
@@ -33,7 +33,7 @@ public enum CampaignDateStatus
 public class CampaignDate
 {
     public required DateOnly Date { get; set; }
-    public Collection<DepartmentAssignment> DepartmentAssignments { get; set; } = [];
+    public List<DepartmentAssignment> DepartmentAssignments { get; set; } = [];
     public TimeOnly? StartTime { get; set; }
     public TimeOnly? EndTime { get; set; }
     public CampaignDateStatus Status { get; set; } = CampaignDateStatus.Hidden;
