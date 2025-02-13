@@ -9,6 +9,8 @@ public static class GroupBy
     /// </summary>
     /// <remarks>
     /// The result must only contain months with orders.
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.select
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.groupby
     /// </remarks>
     public static IEnumerable<OrdersGroupedByMonthNumberOfOrdersResult> OrdersGroupedByMonthNumberOfOrders()
     {
@@ -24,6 +26,8 @@ public static class GroupBy
     /// </summary>
     /// <remarks>
     /// The result must only contain customers with orders.
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.select
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.groupby
     /// </remarks>
     public static IEnumerable<TotalOrderValueByCustomerResult> TotalOrderValueByCustomer()
     {
@@ -43,6 +47,11 @@ public static class GroupBy
     /// </summary>
     /// <remarks>
     /// The result must only contain customers with orders.
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.select
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.groupby
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.average
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.sum
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.count
     /// </remarks>
     public static IEnumerable<OrderStatsByCustomerResult> OrderStatsByCustomer()
     {
@@ -58,6 +67,14 @@ public static class GroupBy
     /// <summary>
     /// Same as <see cref="OrderStatsByCustomer"/>, but includes **all** customers 
     /// </summary>
+    /// <remarks>
+    /// Note: You can solve this exercise with or without grouping.
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.select
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.defaultifempty
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.average
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.sum
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.count
+    /// </remarks>
     public static IEnumerable<OrderStatsByCustomerResult> OrderStatsByAllCustomer()
     {
         return SampleData.Customers
@@ -75,7 +92,13 @@ public static class GroupBy
     /// </summary>
     /// <remarks>
     /// The result must only contain customers with a total order value of $60,000 or more.
-    /// Tip: Do NOT call the exising OrderStatsByCustomer method. Practice LINQ by rewriting the query from scratch.
+    /// Tip: Do NOT call the exising <see cref="OrderStatsByCustomer"/> method. Practice LINQ by rewriting the query from scratch.
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.select
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.groupby
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.where
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.average
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.sum
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.count
     /// </remarks>
     public static IEnumerable<OrderStatsByCustomerResult> OrderStatsByLargeCustomer()
     {

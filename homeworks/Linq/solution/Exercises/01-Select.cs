@@ -7,6 +7,9 @@ public static class Select
     /// <summary>
     /// Returns a list of customers with their ID, company name and country ISO code.
     /// </summary>
+    /// <remarks>
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.select
+    /// </remarks>
     public static IEnumerable<BasicSelectCustomerResult> BasicSelectCustomers()
     {
         return SampleData.Customers.Select(c => new BasicSelectCustomerResult(c.ID, c.CompanyName, c.CountryIsoCode));
@@ -16,7 +19,9 @@ public static class Select
     /// Returns a list of customers with their ID, company name and country ISO code.
     /// </summary>
     /// <remarks>
-    /// In contrast to BasicSelectCustomers, this method returns an **anonymous type**.
+    /// In contrast to <see cref="BasicSelectCustomers"/>, this method returns an **anonymous type**.
+    /// See also https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/types/anonymous-types
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.select
     /// </remarks>
     public static IEnumerable<object> BasicSelectCustomersAnonymous()
     {
@@ -28,6 +33,9 @@ public static class Select
     /// <summary>
     /// Returns a list of order headers with their ID, order date, customer ID and company name.
     /// </summary>
+    /// <remarks>
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.select
+    /// </remarks>
     public static IEnumerable<BasicSelectOrderHeadersResult> BasicSelectOrderHeaders()
     {
         return SampleData.OrderHeaders.Select(
@@ -41,6 +49,8 @@ public static class Select
     /// </summary>
     /// <remarks>
     /// Customers that did not place any orders must also be in the result with an order count of 0.
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.select
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.count
     /// </remarks>
     public static IEnumerable<SelectWithAggregateCustomerOrderCountResult> SelectWithAggregateCustomerOrderCount()
     {
@@ -57,6 +67,10 @@ public static class Select
     /// The total revenue is the sum of quantity * unit price for each order line.
     /// Customers that did not place any orders must also be in the result with a total revenue of 0.
     /// The result must be ordered by total revenue in descending order.
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.select
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.selectmany
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.sum
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.orderbydescending
     /// </remarks>
     public static IEnumerable<SelectWithAggregateCustomerTotalRevenueResult> SelectWithAggregateCustomerTotalRevenue()
     {
@@ -75,6 +89,9 @@ public static class Select
     /// </summary>
     /// <remarks>
     /// Customers that did not place any orders in January 2024 must not be in the result.
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.select
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.where
+    /// See also https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.count
     /// </remarks>
     public static IEnumerable<SelectCustomersWithOrderCountJanuary2024Result> SelectCustomersWithOrderCountJanuary2024()
     {

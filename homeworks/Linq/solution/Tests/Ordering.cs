@@ -31,4 +31,18 @@ public class OrderingTests
 
         Assert.Equal(expected, result);
     }
+
+    [Fact]
+    public void TopCustomers()
+    {
+        var result = Ordering.TopCustomers();
+
+        Ordering.TopCustomersResult[] expected =
+        {
+            new(2, "Globex Corp", 69936.72m),
+            new(1, "Acme Corp", 63144.06m),
+        };
+
+        Assert.Equal(expected, result);
+    }
 }

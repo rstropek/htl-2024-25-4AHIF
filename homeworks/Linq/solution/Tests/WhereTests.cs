@@ -19,6 +19,19 @@ public class WhereTests
     }
 
     [Fact]
+    public void BasicWhereCustomers()
+    {
+        var result = Where.BasicWhereCustomers();
+
+        Where.BasicWhereCustomerResult[] expected =
+        [
+            new(1, "Acme Corp"),
+        ];
+
+        Assert.Equal(expected, result);
+    }
+
+    [Fact]
     public void CustomersWithOrdersOutsideHomeCountry()
     {
         var result = Where.CustomersWithOrdersOutsideHomeCountry().OrderBy(c => c.ID);
