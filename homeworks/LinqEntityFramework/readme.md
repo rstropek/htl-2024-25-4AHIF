@@ -1,6 +1,8 @@
-# LINQ Coding Exercise
+# LINQ Coding Exercise (with EFCore)
 
-This exercise is designed to help you practice LINQ queries in C#. Start with the [_starter_](./starter/) project, which includes both an **Exercises** and a **Tests** project. Your task is to complete the methods in the **Exercises** project and then run the tests in the **Tests** project to validate your implementation.
+This exercise builds on [the previous LINQ exercise](../Linq/). Make sure to do it before you start with this one.
+
+This exercise is designed to help you practice LINQ queries with EFCore (we use SQLite in this example) in C#. Start with the [_starter_](./starter/) project, which includes both an **Exercises** and a **Tests** project. Your task is to add EFCore and complete the methods in the **Exercises** project and then run the tests in the **Tests** project to validate your implementation.
 
 Each method is accompanied by detailed specifications in the C# XML documentation, along with links to the relevant LINQ method documentation that may be useful for implementation. If you're unfamiliar with any of these methods, simply click the link to review the documentation.
 
