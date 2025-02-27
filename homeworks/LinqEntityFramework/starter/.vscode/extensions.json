@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+        "ms-dotnettools.csdevkit",
+        "ms-dotnettools.csharp",
+        "wayou.vscode-todo-highlight",
+        "usernamehw.errorlens",
+        "formulahendry.dotnet-test-explorer",
+        "aliasadidev.nugetpackagemanagergui",
+        "redhat.vscode-xml"
+    ]
+}
