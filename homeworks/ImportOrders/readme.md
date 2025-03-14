@@ -51,7 +51,20 @@ In this exercise, you have to write an importer for a simple data format.
     }
     ```
 
-4. Add a `DbContext` class with the tables `Customers`, `OrderHeaders`, and `OrderLines`.
+4. Add a `DbContext` class with the tables `Customers`, `OrderHeaders`, and `OrderLines`. Make sure to add the following code to the data context. It ensures that `CountryIsoCode` has a length of two.
+
+    ```cs
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<OrderLine>()
+            .Property(ol => ol.UnitPrice)
+            .HasConversion<double>();
+
+        modelBuilder.Entity<Customer>()
+            .ToTable(c => c.HasCheckConstraint("CK_CountryIsoCode", "length(CountryIsoCode) = 2"));
+    }
+    ``` 
+
 5. Add an `IDesignTimeDbContextFactory` implementation for the `DbContext` class.
 6. Setup the database connection in the `appsettings.json` file.
 7. Add migrations and update the database.
