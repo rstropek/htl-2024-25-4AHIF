@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
 using Tennis.Api;
 using Tennis.DataAccess;
 using static Tennis.Api.GamesApi;
@@ -15,15 +17,18 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
 app.UseHttpsRedirection();
 
-app.MapPost("/api/games", GamesApi.CreateGamesHandler);
-app.MapPost("/api/games/{gameId}/points", GamesApi.ReportPointHandler);
-app.MapGet("/api/games/{gameId}/score", GamesApi.GetGameScoreHandler).Produces<ScoreResult>();
+var apiApp = app.MapGroup("/api");
+apiApp.MapPost("/games", GamesApi.CreateGamesHandler)
+    .Produces<CreatedIdResult>(StatusCodes.Status201Created);
+apiApp.MapPost("/games/{gameId}/points", GamesApi.ReportPointHandler);
+apiApp.MapGet("/games/{gameId}/score", GamesApi.GetGameScoreHandler).Produces<ScoreResult>();
 
-app.MapGet("/api/statistics/player/{playerName}", StatisticsApi.GetPlayerStatisticsHandler).Produces<PlayerStatisticsResult>();
-app.MapGet("/api/statistics/tournament/{tournamentName}", StatisticsApi.GetTournamentStatisticsHandler).Produces<TournamentStatisticsResult>();
+apiApp.MapGet("/statistics/player/{playerName}", StatisticsApi.GetPlayerStatisticsHandler).Produces<PlayerStatisticsResult>();
+apiApp.MapGet("/statistics/tournament/{tournamentName}", StatisticsApi.GetTournamentStatisticsHandler).Produces<TournamentStatisticsResult>();
 
 app.Run();
