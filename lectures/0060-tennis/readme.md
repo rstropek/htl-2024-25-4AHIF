@@ -1,9 +1,13 @@
 # Tennis Match API Specification
 
+![Hero Image](./hero.png)
+
 ## Overview
+
 This exercise requires students to implement a Web API using ASP.NET Core and Entity Framework Core. The domain is professional Tennis matches. The API will allow for creating and updating matches, recording points and retrieving live scores and player statistics.
 
 ## Domain Model
+
 - **Game**
   - `Id` (GUID)
   - `TournamentName` (string)
@@ -54,22 +58,8 @@ A match consists of multiple sets. A set is made up of multiple games. To win a 
 ```
 - **Response:** 201 Created with Game ID
 
-### Update Game
-- **PUT** `/api/games/{id}`
-- **Request Body:**
-```json
-{
-  "tournamentName": "Updated Name",
-  "player1Name": "Player A",
-  "player2Name": "Player B",
-  "startDateTime": "2025-01-01T10:00:00Z",
-  "endDateTime": "2025-01-01T12:30:00Z",
-  "bestOfSets": 3
-}
-```
-- **Response:** 204 No Content
-
 ### Report Point
+
 - **POST** `/api/games/{gameId}/points`
 - **Request Body:**
 ```json
@@ -86,6 +76,7 @@ A match consists of multiple sets. A set is made up of multiple games. To win a 
 - **Response:** 201 Created
 
 ### Get Current Score
+
 - **GET** `/api/games/{gameId}/score`
 - **Response:**
 ```json
@@ -98,14 +89,19 @@ A match consists of multiple sets. A set is made up of multiple games. To win a 
   ],
   "currentGame": {
     "player1Points": "40",
-    "player2Points": "30"
+    "player2Points": "30",
+    "advantage": null
   },
   "winner": null
 }
 ```
-Note: The `winner` field is optional and only present if the match has been won.
+
+The `winner` field is optional and only present if the match has been won.
+
+The `advantage` field is also optional. It is only used in case of a Deuce.
 
 ### Get Player Statistics
+
 - **GET** `/api/statistics/player/{playerName}`
 - **Response:**
 ```json
@@ -119,6 +115,7 @@ Note: The `winner` field is optional and only present if the match has been won.
 ```
 
 ### Get Tournament Statistics
+
 - **GET** `/api/statistics/tournament/{tournamentName}`
 - **Response:**
 ```json
