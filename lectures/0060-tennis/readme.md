@@ -1,7 +1,7 @@
 # Tennis Match API Specification
 
 ## Overview
-This exercise requires students to implement a RESTful Web API using ASP.NET Core and Entity Framework Core. The domain is professional Tennis matches. The API will allow for creating and updating matches, recording points and retrieving live scores and player statistics.
+This exercise requires students to implement a Web API using ASP.NET Core and Entity Framework Core. The domain is professional Tennis matches. The API will allow for creating and updating matches, recording points and retrieving live scores and player statistics.
 
 ## Domain Model
 - **Game**
