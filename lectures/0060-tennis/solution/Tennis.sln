@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tennis.Api", "Tennis.Api\Tennis.Api.csproj", "{0CA04CC0-6E8C-46C9-BC39-1A9DD77DD3C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tennis.DataAccess", "Tennis.DataAccess\Tennis.DataAccess.csproj", "{1759282C-DE8B-4F4E-90F5-963EF00F886D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tennis.Logic", "Tennis.Logic\Tennis.Logic.csproj", "{7150294C-7F5C-4E84-B845-44754B01B614}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tennis.Logic.Tests", "Tennis.Logic.Tests\Tennis.Logic.Tests.csproj", "{D88FD256-32B1-4925-B7A9-25D1C7D9A8FD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0CA04CC0-6E8C-46C9-BC39-1A9DD77DD3C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CA04CC0-6E8C-46C9-BC39-1A9DD77DD3C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CA04CC0-6E8C-46C9-BC39-1A9DD77DD3C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CA04CC0-6E8C-46C9-BC39-1A9DD77DD3C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1759282C-DE8B-4F4E-90F5-963EF00F886D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1759282C-DE8B-4F4E-90F5-963EF00F886D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1759282C-DE8B-4F4E-90F5-963EF00F886D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1759282C-DE8B-4F4E-90F5-963EF00F886D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7150294C-7F5C-4E84-B845-44754B01B614}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7150294C-7F5C-4E84-B845-44754B01B614}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7150294C-7F5C-4E84-B845-44754B01B614}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7150294C-7F5C-4E84-B845-44754B01B614}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D88FD256-32B1-4925-B7A9-25D1C7D9A8FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D88FD256-32B1-4925-B7A9-25D1C7D9A8FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D88FD256-32B1-4925-B7A9-25D1C7D9A8FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D88FD256-32B1-4925-B7A9-25D1C7D9A8FD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
