@@ -4,13 +4,13 @@
 
 ## Overview
 
-In this exercise, you'll build a web API to manage the **Quidditch World Cup 2027** tournament. The tournament features 16 national teams competing in a single-elimination knockout format, where teams are paired in matches and winners advance to the next round until a champion is crowned.
+In this exercise, you'll build a web API to manage the **Quidditch World Cup 2027** tournament. The tournament features 8 national teams competing in a single-elimination knockout format, where teams are paired in matches and winners advance to the next round until a champion is crowned.
 
 ## Tournament Structure
 
-- 16 teams participate in the tournament
+- 8 teams participate in the tournament
 - Single-elimination knockout format (teams eliminated after one loss)
-- 4 rounds of play: Round of 16, Quarter-finals, Semi-finals, and Finals
+- 3 rounds of play: Round of 8, Semi-finals, and Finals
 - Each match produces exactly one winner who advances to the next round
 - The tournament concludes when one team remains undefeated
 
@@ -26,11 +26,11 @@ In this exercise, you'll build a web API to manage the **Quidditch World Cup 202
 
 **Endpoint:** `POST /api/teams`  
 **Description:**  
-This endpoint registers the 16 national teams that will participate in the tournament.
+This endpoint registers the 8 national teams that will participate in the tournament.
 
 **Requirements:**  
-- Accepts an array of exactly 16 team names or team objects
-- Validates that exactly 16 teams are provided
+- Accepts an array of exactly 8 team names or team objects
+- Validates that exactly 8 teams are provided
 - Each team must have a unique name
 - Returns an error if teams have already been set
 - Stores the list for use in the tournament
@@ -48,11 +48,6 @@ Content-Type: application/json
     "Canada",
     "Denmark",
     "Egypt",
-    "Finland",
-    "Greece",
-    "Hungary",
-    "India",
-    "Japan",
     ...
   ]
 }
