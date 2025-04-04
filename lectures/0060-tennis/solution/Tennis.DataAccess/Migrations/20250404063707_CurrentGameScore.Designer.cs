@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tennis.DataAccess;
 
@@ -10,9 +11,11 @@ using Tennis.DataAccess;
 namespace Tennis.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDataContext))]
-    partial class ApplicationDataContextModelSnapshot : ModelSnapshot
+    [Migration("20250404063707_CurrentGameScore")]
+    partial class CurrentGameScore
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.3");
@@ -23,16 +26,11 @@ namespace Tennis.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("GameId1")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("GameScoreJson")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("GameId");
-
-                    b.HasIndex("GameId1");
 
                     b.ToTable("CurrentGameScores");
                 });
@@ -110,15 +108,6 @@ namespace Tennis.DataAccess.Migrations
                     b.HasIndex("GameId");
 
                     b.ToTable("Points");
-                });
-
-            modelBuilder.Entity("Tennis.DataAccess.CurrentGameScore", b =>
-                {
-                    b.HasOne("Tennis.DataAccess.Game", "Game")
-                        .WithMany()
-                        .HasForeignKey("GameId1");
-
-                    b.Navigation("Game");
                 });
 
             modelBuilder.Entity("Tennis.DataAccess.Point", b =>

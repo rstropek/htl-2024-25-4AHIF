@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using Tennis.Api;
 using Tennis.DataAccess;
+using Tennis.Logic;
 using static Tennis.Api.GamesApi;
 using static Tennis.Api.StatisticsApi;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddSingleton<PointsToMatchScoreConverter>();
 builder.Services.AddDbContext<ApplicationDataContext>(options =>
 {
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -26,7 +28,7 @@ var apiApp = app.MapGroup("/api");
 apiApp.MapPost("/games", GamesApi.CreateGamesHandler)
     .Produces<CreatedIdResult>(StatusCodes.Status201Created);
 apiApp.MapPost("/games/{gameId}/points", GamesApi.ReportPointHandler);
-apiApp.MapGet("/games/{gameId}/score", GamesApi.GetGameScoreHandler).Produces<ScoreResult>();
+//apiApp.MapGet("/games/{gameId}/score", GamesApi.GetGameScoreHandler).Produces<ScoreResult>();
 
 apiApp.MapGet("/statistics/player/{playerName}", StatisticsApi.GetPlayerStatisticsHandler).Produces<PlayerStatisticsResult>();
 apiApp.MapGet("/statistics/tournament/{tournamentName}", StatisticsApi.GetTournamentStatisticsHandler).Produces<TournamentStatisticsResult>();

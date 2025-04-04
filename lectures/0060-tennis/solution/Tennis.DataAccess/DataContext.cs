@@ -8,6 +8,7 @@ public class ApplicationDataContext(DbContextOptions<ApplicationDataContext> opt
 {
     public DbSet<Game> Games => Set<Game>();
     public DbSet<Point> Points => Set<Point>();
+    public DbSet<CurrentGameScore> CurrentGameScores => Set<CurrentGameScore>();
 }
 
 public class ApplicationDataContextFactory : IDesignTimeDbContextFactory<ApplicationDataContext>

@@ -1,4 +1,7 @@
-﻿namespace Tennis.DataAccess;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+
+namespace Tennis.DataAccess;
 
 public enum ServeType
 {
@@ -33,5 +36,13 @@ public class Point
     public bool Net { get; set; }
     public DateTimeOffset Timestamp { get; set; }
     public string? AdditionalInfo { get; set; }
+}
+
+public class CurrentGameScore
+{
+    [Key]
+    public int GameId { get; set; }
+    public Game? Game { get; set; }
+    public string GameScoreJson { get; set; } = string.Empty;
 }
 
