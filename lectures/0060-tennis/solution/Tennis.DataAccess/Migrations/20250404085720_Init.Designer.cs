@@ -11,8 +11,8 @@ using Tennis.DataAccess;
 namespace Tennis.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDataContext))]
-    [Migration("20250404063707_CurrentGameScore")]
-    partial class CurrentGameScore
+    [Migration("20250404085720_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,15 +22,20 @@ namespace Tennis.DataAccess.Migrations
 
             modelBuilder.Entity("Tennis.DataAccess.CurrentGameScore", b =>
                 {
-                    b.Property<int>("GameId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("GameId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("GameScoreJson")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("GameId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId");
 
                     b.ToTable("CurrentGameScores");
                 });
@@ -108,6 +113,17 @@ namespace Tennis.DataAccess.Migrations
                     b.HasIndex("GameId");
 
                     b.ToTable("Points");
+                });
+
+            modelBuilder.Entity("Tennis.DataAccess.CurrentGameScore", b =>
+                {
+                    b.HasOne("Tennis.DataAccess.Game", "Game")
+                        .WithMany()
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
                 });
 
             modelBuilder.Entity("Tennis.DataAccess.Point", b =>

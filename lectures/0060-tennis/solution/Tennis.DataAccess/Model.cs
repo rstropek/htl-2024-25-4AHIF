@@ -40,9 +40,8 @@ public class Point
 
 public class CurrentGameScore
 {
-    [Key]
+    public int Id { get; set; }
     public int GameId { get; set; }
     public Game? Game { get; set; }
     public string GameScoreJson { get; set; } = string.Empty;
 }
-

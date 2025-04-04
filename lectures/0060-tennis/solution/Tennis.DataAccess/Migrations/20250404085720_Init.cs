@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Tennis.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -28,6 +28,26 @@ namespace Tennis.DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Games", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CurrentGameScores",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    GameId = table.Column<int>(type: "INTEGER", nullable: false),
+                    GameScoreJson = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CurrentGameScores", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CurrentGameScores_Games_GameId",
+                        column: x => x.GameId,
+                        principalTable: "Games",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -58,6 +78,11 @@ namespace Tennis.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_CurrentGameScores_GameId",
+                table: "CurrentGameScores",
+                column: "GameId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Points_GameId",
                 table: "Points",
                 column: "GameId");
@@ -66,6 +91,9 @@ namespace Tennis.DataAccess.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "CurrentGameScores");
+
             migrationBuilder.DropTable(
                 name: "Points");
 

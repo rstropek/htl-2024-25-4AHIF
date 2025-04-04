@@ -19,20 +19,20 @@ namespace Tennis.DataAccess.Migrations
 
             modelBuilder.Entity("Tennis.DataAccess.CurrentGameScore", b =>
                 {
-                    b.Property<int>("GameId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("GameId1")
+                    b.Property<int>("GameId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("GameScoreJson")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("GameId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("GameId1");
+                    b.HasIndex("GameId");
 
                     b.ToTable("CurrentGameScores");
                 });
@@ -116,7 +116,9 @@ namespace Tennis.DataAccess.Migrations
                 {
                     b.HasOne("Tennis.DataAccess.Game", "Game")
                         .WithMany()
-                        .HasForeignKey("GameId1");
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Game");
                 });
