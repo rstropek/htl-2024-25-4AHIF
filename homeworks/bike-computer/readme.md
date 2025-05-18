@@ -18,7 +18,7 @@ The user must be able to register a bike. For our application, it is critical to
   * ETRTO size designation (_European Tire and Rim Technical Organization_; e.g. _58-622_)
   * Diameter in mm. You have to convert the diameter to circumference using the formula `circumference = diameter * pi`.
 
-You can find a list of ETRTO sizes relevant for this exercise in [*tire_types.json*](./tire_types.json).^
+You can find a list of ETRTO sizes relevant for this exercise in [*tire_types.json*](./tire_types.json).
 
 Design the user interface in a way that the user can easily select the size of the tire (e.g. dropdown list). If our ETRTO list does not contain the size that the user wants, the user must be able to enter the size manually. Note that the conversion from ETRTO or diameter to circumference *must be done in the backend*, not in the frontend.
 
@@ -85,4 +85,4 @@ Use an AI to generate test data for the following case:
 * Backend with ASP.NET Core Minimal API and C#
 * SQLite database with Entity Framework Core
 * xUnit tests
-* Angular for frontend
+* Angular for frontend (use of signals and new control flow statements is mandatory)
