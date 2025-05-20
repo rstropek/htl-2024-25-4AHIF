@@ -61,7 +61,7 @@ From the list of rides, the user must be able to select a ride and view the foll
 * Total distance of the ride in kilometers
 * Average speed of the ride in km/h
 
-Write at least three meaningful unit tests for the analysis of rides. Tipp: The average speed of the ride in [*constant_ride.json*](./constant_ride.json) is approx. 25km/h. 
+Write at least three meaningful unit tests for the analysis of rides. Tipp: The average speed of the ride in [*constant_ride.json*](./constant_ride.json) is approx. 25km/h (tire: 56-622). 
 
 ### Analyze rides (part 2)
 
