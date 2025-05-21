@@ -8,7 +8,7 @@ export type NewBikeDto = {
   title: string;
   serialNumberBikeComputer: string;
   etrtoDesignation?: string;
-  circumference_mm?: number;
+  diameter_mm?: number;
 }
 
 export type NewBikeResultDto = {
@@ -66,9 +66,9 @@ export class BikeRideService {
   }
 
   // Ride APIs
-  async getRides(): Promise<RideDto[]> {
+  async getRides(bikeId: number): Promise<RideDto[]> {
     const rides = await firstValueFrom(this.httpClient.get<RideDto[]>(
-      `${this.apiBaseUrl}/rides`));
+      `${this.apiBaseUrl}/bikes/${bikeId}/rides`));
     // Convert ISO string dates to Date objects
     return rides.map(ride => ({
       ...ride,

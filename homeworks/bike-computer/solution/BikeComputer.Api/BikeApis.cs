@@ -27,11 +27,25 @@ public static partial class BikeApis
     #region Register Bike
     private static async Task<IResult> HandleRegisterBike([FromBody] NewBikeDto newBike, ApplicationDataContext context)
     {
+        int circumference_mm = 0;
+        if (newBike.Diameter_mm != null)
+        {
+            circumference_mm = (int)Math.Round(newBike.Diameter_mm.Value * Math.PI);
+        }
+        else if (!string.IsNullOrWhiteSpace(newBike.EtrtoDesignation))
+        {
+            var tireType = TireTypes.FirstOrDefault(t => t.Etreto == newBike.EtrtoDesignation);
+            if (tireType != null)
+            {
+                circumference_mm = tireType.Circumference_mm;
+            }
+        }
+
         var bike = new Bike
         {
             Title = newBike.Title,
             SerialNumberBikeComputer = newBike.SerialNumberBikeComputer,
-            Circumference_mm = newBike.Circumference_mm!.Value
+            Circumference_mm = circumference_mm,
         };
 
         context.Bikes.Add(bike);
@@ -52,7 +66,7 @@ public static partial class BikeApis
         public required string Title { get; set; }
         public required string SerialNumberBikeComputer { get; set; }
         public string? EtrtoDesignation { get; set; }
-        public int? Circumference_mm { get; set; }
+        public int? Diameter_mm { get; set; }
     }
 
     public class NewBikeResultDto
@@ -68,6 +82,8 @@ public static partial class BikeApis
         int Circumference_mm
     );
 
+    // To keep things simple, we import the tire types in C#.
+    // In a real-world application, this might be read from the DB.
     private static readonly TireType[] TireTypes =
     [
         new("25-559", 1913),
@@ -103,52 +119,39 @@ public static partial class BikeApis
 
     public static Dictionary<string, string[]> ValidateNewBikeDto(NewBikeDto newBike)
     {
-        // Create a dictionary to store validation errors. The key is the property name 
-        // and the value is an array of error messages. If the validation passes, an empty 
-        // dictionary is returned.
         var errors = new Dictionary<string, string[]>();
 
-        // Validate the Title property
         if (string.IsNullOrWhiteSpace(newBike.Title))
         {
             errors[nameof(newBike.Title)] = ["Title is required."];
         }
 
-        // Validate the SerialNumberBikeComputer property
         if (string.IsNullOrWhiteSpace(newBike.SerialNumberBikeComputer))
         {
             errors[nameof(newBike.SerialNumberBikeComputer)] = ["SerialNumberBikeComputer is required."];
         }
 
-        // Validate the EtrtoDesignation property
-        if (newBike.Circumference_mm < 0)
+        if (newBike.Diameter_mm < 0)
         {
-            errors[nameof(newBike.Circumference_mm)] = ["Circumference_mm must be a positive number."];
+            errors[nameof(newBike.Diameter_mm)] = ["Diameter_mm must be a positive number."];
         }
 
-        // Make sure either EtrtoDesignation or Circumference_mm are provided
-        if (string.IsNullOrWhiteSpace(newBike.EtrtoDesignation) && newBike.Circumference_mm == null)
+        if (string.IsNullOrWhiteSpace(newBike.EtrtoDesignation) && newBike.Diameter_mm == null)
         {
-            errors[nameof(newBike.EtrtoDesignation)] = ["Either EtrtoDesignation or Circumference_mm must be provided."];
+            errors[nameof(newBike.EtrtoDesignation)] = ["Either EtrtoDesignation or Diameter_mm must be provided."];
         }
 
-        // Make sure that one of them is null
-        if (!string.IsNullOrWhiteSpace(newBike.EtrtoDesignation) && newBike.Circumference_mm != null)
+        if (!string.IsNullOrWhiteSpace(newBike.EtrtoDesignation) && newBike.Diameter_mm != null)
         {
-            errors[nameof(newBike.EtrtoDesignation)] = ["Either EtrtoDesignation or Circumference_mm must be provided, not both."];
+            errors[nameof(newBike.EtrtoDesignation)] = ["Either EtrtoDesignation or Diameter_mm must be provided, not both."];
         }
 
-        // If EtrtoDesignation is provided, check if it is valid
         if (!string.IsNullOrWhiteSpace(newBike.EtrtoDesignation))
         {
             var tireType = TireTypes.FirstOrDefault(t => t.Etreto == newBike.EtrtoDesignation);
             if (tireType == null)
             {
                 errors[nameof(newBike.EtrtoDesignation)] = ["Invalid ETRTO Designation."];
-            }
-            else
-            {
-                newBike.Circumference_mm = tireType.Circumference_mm;
             }
         }
 

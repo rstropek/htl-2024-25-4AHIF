@@ -1,0 +1,82 @@
+<div class="ride-list-header">
+  <h2>Ride List for Bike {{ bikeId() }}</h2>
+  <button class="btn back-button" routerLink="/bike-list">Back to Bike List</button>
+</div>
+
+<div class="grid-table grid-cols-4">
+  <!-- Header row -->
+  <div class="grid-cell grid-header">Bike Name</div>
+  <div class="grid-cell grid-header">&nbsp;</div>
+  <div class="grid-cell grid-header">&nbsp;</div>
+  <div class="grid-cell grid-header">&nbsp;</div>
+
+  <!-- Ride rows -->
+  @for(r of rides(); track r.id) {
+    <div class="grid-cell">{{ r.title }}</div>
+    <div class="grid-cell"><button class="btn" (click)="showRenameRideModal(r.id, r.title)">🖊️ Rename</button></div>
+    <div class="grid-cell"><button class="btn" (click)="deleteRide(r.id)">❌ Delete</button></div>
+    <div class="grid-cell"><button class="btn" (click)="getRideDetails(r.id)">📊 Statistics</button></div>
+  }
+</div>
+
+<!-- Rename Ride Modal -->
+<dialog [open]="renamingRideId() !== null" class="rename-dialog">
+  <form method="dialog">
+    <div class="dialog-header">
+      <h3>Rename Ride</h3>
+    </div>
+    <div class="dialog-body">
+      <div class="form-group">
+        <label for="rideTitle">New Title:</label>
+        <input
+          type="text"
+          id="rideTitle"
+          name="rideTitle"
+          class="form-control"
+          [(ngModel)]="renamingRideTitle" />
+      </div>
+    </div>
+    <div class="dialog-footer">
+      <button type="button" class="btn cancel-btn" (click)="renamingRideId.set(null)">Cancel</button>
+      <button type="submit" class="btn save-btn" (click)="renameRide(renamingRideId()!, renamingRideTitle()!)">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Statistics Modal -->
+<dialog [open]="rideDetails() !== null" class="statistics-dialog">
+  <form method="dialog">
+    <div class="dialog-header">
+      <h3>Ride Statistics</h3>
+    </div>
+    <div class="dialog-body">
+      @if (rideDetails()) {
+        <div class="stats-container">
+          <div class="stat-row">
+            <span class="stat-label">Duration (min.):</span>
+            <span class="stat-value">{{ rideDetails()!.rideDuration_s / 60 | number: '.1-2' }}</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Distance (km):</span>
+            <span class="stat-value">{{ rideDetails()!.rideDistance_m / 1000 | number: '.1-2' }}</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Average Speed:</span>
+            <span class="stat-value">{{ rideDetails()!.avgSpeed_kmh | number: '.1-2' }} km/h</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Number of Stops:</span>
+            <span class="stat-value">{{ rideDetails()!.numberOfStops }}</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Total Stop Time:</span>
+            <span class="stat-value">{{ rideDetails()!.totalStopTime_s | number: '.1-2' }}</span>
+          </div>
+        </div>
+      }
+    </div>
+    <div class="dialog-footer">
+      <button type="button" class="btn close-btn" (click)="rideDetails.set(null)">Close</button>
+    </div>
+  </form>
+</dialog>

@@ -11,7 +11,7 @@
 
   <!-- Bike rows -->
   @for(b of bikes(); track b.id) {
-    <div class="grid-cell">{{ b.title }}</div>
+    <div class="grid-cell"><a [routerLink]="b.id + '/ride-list'">{{ b.title }}</a></div>
     <div class="grid-cell">{{ b.serialNumberBikeComputer }}</div>
     <div class="grid-cell">{{ b.hasNewRides ? 'New rides!' : '' }}</div>
   }

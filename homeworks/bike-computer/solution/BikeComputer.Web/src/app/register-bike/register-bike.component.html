@@ -50,7 +50,7 @@
           [class.active]="sizeMethod() === 'manual'"
           (click)="toggleSizeMethod('manual')"
         >
-          Manual Circumference
+          Manual Diameter
         </button>
       </div>
     </div>
@@ -73,16 +73,16 @@
       </div>
     }
 
-    <!-- Manual Circumference Input -->
+    <!-- Manual Diameter Input -->
     @if (sizeMethod() === 'manual') {
       <div class="form-group">
-        <label for="circumference">Wheel Circumference (mm)</label>
+        <label for="diameter">Wheel Diameter (mm)</label>
         <input
           type="number"
-          id="circumference"
-          name="circumference"
-          [(ngModel)]="manualCircumference"
-          placeholder="Enter circumference in millimeters"
+          id="diameter"
+          name="diameter"
+          [(ngModel)]="manualDiameter"
+          placeholder="Enter diameter in millimeters"
           min="1"
           required
         >

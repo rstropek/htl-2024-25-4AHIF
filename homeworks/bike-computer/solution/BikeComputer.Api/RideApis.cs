@@ -15,7 +15,7 @@ public static partial class RideApis
             .Produces<ProblemDetails>(StatusCodes.Status400BadRequest)
             .Produces<NewRideResultDto>(StatusCodes.Status201Created);
 
-        app.MapGet("/rides", HandleGetRides)
+        app.MapGet("/bikes/{id}/rides", HandleGetRides)
             .WithName(nameof(HandleGetRides))
             .WithDescription("Gets all rides")
             .Produces<List<RideDto>>(StatusCodes.Status200OK);
@@ -102,9 +102,10 @@ public static partial class RideApis
     #endregion
 
     #region Get Rides
-    private static async Task<IResult> HandleGetRides(ApplicationDataContext context)
+    private static async Task<IResult> HandleGetRides(ApplicationDataContext context, [FromRoute] int id)
     {
         var rides = await context.Rides
+            .Where(r => r.BikeId == id)
             .Select(r => new RideDto
             {
                 Id = r.Id,
@@ -200,12 +201,8 @@ public static partial class RideApis
 
     public static Dictionary<string, string[]> ValidateUpdateRideDto(UpdateRideDto updateRide)
     {
-        // Create a dictionary to store validation errors. The key is the property name 
-        // and the value is an array of error messages. If the validation passes, an empty 
-        // dictionary is returned.
         var errors = new Dictionary<string, string[]>();
 
-        // Validate the Title property
         if (string.IsNullOrWhiteSpace(updateRide.Title))
         {
             errors[nameof(updateRide.Title)] = ["Title is required."];

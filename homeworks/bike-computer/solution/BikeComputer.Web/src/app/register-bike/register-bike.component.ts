@@ -22,11 +22,11 @@ export class RegisterBikeComponent {
   public readonly title = signal<string>('');
   public readonly serialNumberBikeComputer = signal<string>('');
   public readonly sizeMethod = signal<'etrto' | 'manual'>('etrto');
-  public readonly manualCircumference = signal<number | null>(null);
+  public readonly manualDiameter = signal<number | null>(null);
   public readonly selectedEtrtoSize = signal<string>('');
   public readonly isFormValid = computed(() => {
     return this.title() !== '' && this.serialNumberBikeComputer() !== '' &&
-      (this.sizeMethod() === 'etrto' ? this.selectedEtrtoSize() !== '' : this.manualCircumference() !== null);
+      (this.sizeMethod() === 'etrto' ? this.selectedEtrtoSize() !== '' : this.manualDiameter() !== null);
   });
 
   public readonly etrtoSizes: EtrtoSize[] = [
@@ -80,7 +80,7 @@ export class RegisterBikeComponent {
 
     // Reset relevant fields
     if (method === 'etrto') {
-      this.manualCircumference.set(null);
+      this.manualDiameter.set(null);
     } else {
       this.selectedEtrtoSize.set('');
     }
@@ -104,9 +104,9 @@ export class RegisterBikeComponent {
       // Set the correct sizing property based on selection method
       if (this.sizeMethod() === 'etrto') {
         newBike.etrtoDesignation = this.selectedEtrtoSize();
-        newBike.circumference_mm = undefined;
+        newBike.diameter_mm = undefined;
       } else {
-        newBike.circumference_mm = this.manualCircumference() as number;
+        newBike.diameter_mm = this.manualDiameter() as number;
         newBike.etrtoDesignation = undefined;
       }
 
