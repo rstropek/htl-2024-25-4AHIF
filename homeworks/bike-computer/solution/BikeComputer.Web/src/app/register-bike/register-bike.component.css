@@ -1,0 +1,79 @@
+/* filepath: /home/rainer/github/htl-2024-25-4AHIF/homeworks/bike-computer/solution/BikeComputer.Web/src/app/register-bike/register-bike.component.css */
+.register-bike-form {
+  max-width: 600px;
+  margin: 20px 0;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input, select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+input[type="number"] {
+  width: 200px;
+}
+
+.toggle-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.toggle-buttons button.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #0069d9;
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-top: 30px;
+}
+
+button[type="submit"] {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button[type="submit"]:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.cancel-link {
+  color: #dc3545;
+  text-decoration: none;
+}
+
+.cancel-link:hover {
+  text-decoration: underline;
+}
+
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  border: 1px solid #f5c6cb;
+}

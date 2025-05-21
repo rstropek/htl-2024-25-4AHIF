@@ -1,0 +1,11 @@
+.bike-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.add-bike-button {
+  background-color: #28a745;
+  color: white;
+}

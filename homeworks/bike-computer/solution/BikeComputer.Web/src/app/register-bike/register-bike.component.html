@@ -1,0 +1,103 @@
+<h2>Register New Bike</h2>
+
+<div class="register-bike-form">
+  <!-- Error message display -->
+  @if (errorMessage()) {
+    <div class="error-message">{{ errorMessage() }}</div>
+  }
+
+  <form (ngSubmit)="submitForm()">
+    <!-- Basic bike information -->
+    <div class="form-group">
+      <label for="bikeTitle">Bike Title</label>
+      <input
+        type="text"
+        id="bikeTitle"
+        name="bikeTitle"
+        [(ngModel)]="title"
+        placeholder="e.g. My Racer, Mountain Climber, Fixie"
+        required
+      >
+    </div>
+
+    <div class="form-group">
+      <label for="serialNumber">Serial Number of Bike Computer</label>
+      <input
+        type="text"
+        id="serialNumber"
+        name="serialNumber"
+        [(ngModel)]="serialNumberBikeComputer"
+        placeholder="Enter the serial number of your bike computer"
+        required
+      >
+    </div>
+
+    <!-- Wheel/Tire Size Selection Method Toggle -->
+    <div class="form-group">
+      <label>Wheel Size Specification Method</label>
+      <div class="toggle-buttons">
+        <button
+          type="button"
+          class="btn"
+          [class.active]="sizeMethod() === 'etrto'"
+          (click)="toggleSizeMethod('etrto')"
+        >
+          ETRTO Designation
+        </button>
+        <button
+          type="button"
+          class="btn"
+          [class.active]="sizeMethod() === 'manual'"
+          (click)="toggleSizeMethod('manual')"
+        >
+          Manual Circumference
+        </button>
+      </div>
+    </div>
+
+    <!-- ETRTO Size Selection -->
+    @if (sizeMethod() === 'etrto') {
+      <div class="form-group">
+        <label for="etrtoSize">ETRTO Size</label>
+        <select
+          id="etrtoSize"
+          name="etrtoSize"
+          [(ngModel)]="selectedEtrtoSize"
+          required
+        >
+          <option value="" disabled selected>Select a standard size</option>
+          @for (size of etrtoSizes; track size.ETRTO) {
+            <option [value]="size.ETRTO">{{ getEtrtoDisplayText(size) }}</option>
+          }
+        </select>
+      </div>
+    }
+
+    <!-- Manual Circumference Input -->
+    @if (sizeMethod() === 'manual') {
+      <div class="form-group">
+        <label for="circumference">Wheel Circumference (mm)</label>
+        <input
+          type="number"
+          id="circumference"
+          name="circumference"
+          [(ngModel)]="manualCircumference"
+          placeholder="Enter circumference in millimeters"
+          min="1"
+          required
+        >
+      </div>
+    }
+
+    <!-- Submit Button -->
+    <div class="form-actions">
+      <button
+        type="submit"
+        [disabled]="!isFormValid() || isSubmitting()"
+      >
+        {{ isSubmitting() ? 'Registering...' : 'Register Bike' }}
+      </button>
+      <a routerLink="/bike-list" class="cancel-link">Cancel</a>
+    </div>
+  </form>
+</div>

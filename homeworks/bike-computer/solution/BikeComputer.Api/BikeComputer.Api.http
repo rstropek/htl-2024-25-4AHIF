@@ -58,7 +58,7 @@ POST {{host}}/rides
 Content-Type: application/json
 
 {
-    "serialNumberBikeComputer": "1234",
+    "serialNumberBikeComputer": "123456",
     "timestamps": [
         "2025-05-18T16:00:03.034",
         "2025-05-18T16:00:04.291",

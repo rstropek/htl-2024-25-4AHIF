@@ -1,0 +1,18 @@
+<div class="bike-list-header">
+  <h2>Bike List</h2>
+  <button class="btn add-bike-button" routerLink="/register-bike">Register New Bike</button>
+</div>
+
+<div class="grid-table grid-cols-3">
+  <!-- Header row -->
+  <div class="grid-cell grid-header">Bike Name</div>
+  <div class="grid-cell grid-header">Serial Number (Bike Computer)</div>
+  <div class="grid-cell grid-header">Status</div>
+
+  <!-- Bike rows -->
+  @for(b of bikes(); track b.id) {
+    <div class="grid-cell">{{ b.title }}</div>
+    <div class="grid-cell">{{ b.serialNumberBikeComputer }}</div>
+    <div class="grid-cell">{{ b.hasNewRides ? 'New rides!' : '' }}</div>
+  }
+</div>
