@@ -28,6 +28,11 @@ Create a system prompt that:
 
 Describe how few-shot examples, dynamic placeholders (e.g. student names, thesis domain), and tool-like functions (e.g. a length checker) are incorporated.
 
+Create and test your prompts in a console app based on:
+
+* https://github.com/rstropek/openai-responses/blob/main/011-basics-dotnet/Program.cs (simple, works in .NET prior to .NET 10)
+* https://github.com/rstropek/openai-responses/blob/main/031-streaming-dotnet/Program.cs (advanced, uses upcoming .NET 10 features)
+
 ### AI Model Selection and Hosting Option
 
 Select an AI model that you software will use. Describe the selection process. Justify your choice.
